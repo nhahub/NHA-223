@@ -1,4 +1,5 @@
 import 'package:final_depi_project/helpers/routes.dart';
+import 'package:final_depi_project/screens/review_screen.dart';
 import 'package:final_depi_project/screens/sign_in_screen.dart';
 import 'package:final_depi_project/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,10 @@ void main() {
       routes: {
         Routes.signupScreen: (context) => SignUpScreen(),
         Routes.signinScreen: (context) => const SignInScreen(),
+        Routes.reviewScreen: (context) => const ReviewScreen(),
       },
 
-      initialRoute: Routes.signinScreen,
+      initialRoute: Routes.reviewScreen,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
     ),
