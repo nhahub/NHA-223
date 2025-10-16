@@ -1,19 +1,20 @@
-import 'package:final_depi_project/features/auth/login.dart';
+import 'package:final_depi_project/helpers/routes.dart';
+import 'package:final_depi_project/screens/sign_in_screen.dart';
+import 'package:final_depi_project/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  runApp(
+    MaterialApp(
+      routes: {
+        Routes.signupScreen: (context) => SignUpScreen(),
+        Routes.signinScreen: (context) => const SignInScreen(),
+      },
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(375, 812),
-      builder: (context, child) => MaterialApp(home: Login()),
-    );
-  }
+      initialRoute: Routes.signinScreen,
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.dark,
+    ),
+  );
 }
