@@ -4,4 +4,6 @@ class Routes {
   static String signupScreen = 'signupScreen';
   static String signinScreen = 'signinScreen';
   static String reviewScreen = 'reviewScreen';
+  static String trackorder = 'trackorder';
+  static String trackorder2 = 'trackorder2';
 }
