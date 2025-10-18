@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, sort_child_properties_last
 
+import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
 
 class OrderItemWidget extends StatelessWidget {
@@ -103,7 +104,9 @@ class OrderItemWidget extends StatelessWidget {
           SizedBox(width: 8),
           //! Arrow button
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context,Routes.trackorder2);
+            },
             child: Container(
               width: 40,
               height: 40,

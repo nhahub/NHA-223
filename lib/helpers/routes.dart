@@ -6,4 +6,5 @@ class Routes {
   static String reviewScreen = 'reviewScreen';
   static String trackorder = 'trackorder';
   static String trackorder2 = 'trackorder2';
+  static String homeTab = 'homeTab';
 }
