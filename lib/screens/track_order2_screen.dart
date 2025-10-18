@@ -13,6 +13,7 @@ class TrackOrderScreen2 extends StatelessWidget {
     orderId = "04555174";
     orderdate = "Wed, 15, june 2020, 11:35 PM";
     return Scaffold(
+      backgroundColor:Colors.white,
       appBar: AppBar(
 
         centerTitle: true,
