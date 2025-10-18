@@ -2,4 +2,6 @@ class AppAssets{
   // Example when using write
   // Image.assets("Assets.logo")
   static String logo="assets/images/logo.svg";
+  static String orderPhoto="assets/images/orderphoto.png";
+  static String notificationIcon ="assets/images/notification_icon.svg";
 }

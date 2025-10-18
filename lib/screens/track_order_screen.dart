@@ -1,6 +1,7 @@
 import 'package:final_depi_project/widgets/navigation_bar_widget.dart';
 import 'package:final_depi_project/widgets/order_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TrackOrderScreen extends StatefulWidget {
   const TrackOrderScreen({super.key});
@@ -33,11 +34,11 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding:  EdgeInsets.symmetric(vertical: 8.h),
                   itemCount: 10,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding:  EdgeInsets.symmetric(vertical: 8.h),
                       child: SizedBox(
                         width: 343,
                         height: 150,

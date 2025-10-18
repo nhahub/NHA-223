@@ -14,6 +14,7 @@ class TrackOrderScreen2 extends StatelessWidget {
     orderdate = "Wed, 15, june 2020, 11:35 PM";
     return Scaffold(
       appBar: AppBar(
+
         centerTitle: true,
         backgroundColor: Colors.black,
         title: Text(
