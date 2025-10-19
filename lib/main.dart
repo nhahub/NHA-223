@@ -1,3 +1,4 @@
+import 'package:final_depi_project/features/product_detail/product_details.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:final_depi_project/screens/review_screen.dart';
 import 'package:final_depi_project/features/auth/sign_in_screen.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'features/auth/sign_up_screen.dart';
 import 'features/home_screen/tabs/home_tab/home_tab.dart';
 import 'features/onboarding/onbourdingmain.dart';
+
 
 void main() {
   runApp(
@@ -23,10 +25,13 @@ void main() {
           Routes.trackorder2: (context) => TrackOrderScreen2(),
           Routes.homeTab: (context) => HomeTab(),
           Routes.OnboardingMain: (context) => OnboardingMain(),
+          Routes.ProductDetails: (context) => ProductDetails(),
+
+
 
         },
       
-        initialRoute: Routes.OnboardingMain,
+        initialRoute: Routes.ProductDetails,
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.dark,
       ),

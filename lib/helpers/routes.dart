@@ -8,5 +8,7 @@ class Routes {
   static String trackorder2 = 'trackorder2';
   static String homeTab = 'homeTab';
   static String OnboardingMain = 'OnboardingMain';
+  static String ProductDetails = 'ProductDetails';
+
 
 }
