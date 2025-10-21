@@ -1,3 +1,4 @@
+import 'package:final_depi_project/features/home_screen/home_screen.dart';
 import 'package:final_depi_project/features/product_detail/product_details.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:final_depi_project/screens/review_screen.dart';
@@ -25,13 +26,11 @@ void main() {
           Routes.trackorder2: (context) => TrackOrderScreen2(),
           Routes.homeTab: (context) => HomeTab(),
           Routes.OnboardingMain: (context) => OnboardingMain(),
-          Routes.ProductDetails: (context) => ProductDetails(),
-
-
-
+          Routes.productDetails: (context) => ProductDetails(),
+          Routes.homeScreen: (context) => HomeScreen(),
         },
       
-        initialRoute: Routes.ProductDetails,
+        initialRoute: Routes.homeScreen,
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.dark,
       ),
