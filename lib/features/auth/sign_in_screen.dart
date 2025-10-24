@@ -1,4 +1,6 @@
+import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -15,220 +17,211 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
-          child: Container(
-            width: 375,
-            height: 812,
-
-            child: Column(
-              children: [
-                //!---------------------------------------------------"Sign in"
-                SizedBox(height: 120),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            children: [
+              //!---------------------------------------------------"Sign in"
+              SizedBox(height: 120.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 48.h),
+              //!----------------------------------------------------"E-Mail"
+              SizedBox(
+                width: 343.w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      "E-Mail",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(height: 4),
                     Container(
-                      width: 93,
-                      height: 34,
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
+                      width: 343.w,
+                      height: 44.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.r),
+                        color: Color(0xFFF4F4F4),
+                      ),
+                      child: TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          label: Text("Mail"),
+                          hintText: "enter your email",
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 48),
-                //!----------------------------------------------------"E-Mail"
-                Container(
-                  width: 343,
-                  height: 84,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 343,
-                        height: 28,
-                        child: Text(
-                          "E-Mail",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
+              ),
+              //!--------------------------------------------------"password"
+              SizedBox(height: 24.h),
+              SizedBox(
+                width: 343.w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Password",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Container(
+                      width: 343.w,
+                      height: 44.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.r),
+                        color: Color(0xFFF4F4F4),
+                      ),
+                      child: TextField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          label: Text("Enter Password"),
+                          hintText: "enter your password",
+                          suffixIcon: Image.asset(
+                            'assets/images/Lock.png',
+                            width: 24.w,
+                            height: 24.h,
                           ),
                         ),
                       ),
-                      SizedBox(height: 4),
-                      Container(
-                        width: 343,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Color(0xFFF4F4F4),
-                        ),
-                        child: TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            label: Text("Mail"),
-                            hintText: "enter your email",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                //!--------------------------------------------------"password"
-                SizedBox(height: 24),
-                Container(
-                  width: 343,
-                  height: 84,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 343,
-                        height: 28,
-                        child: Text(
-                          "Password",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Container(
-                        width: 343,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Color(0xFFF4F4F4),
-                        ),
-                        child: TextField(
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            label: Text("Enter Password"),
-                            hintText: "enter your password",
-                            suffixIcon: Image.asset(
-                              'assets/Lock.png',
-                              width: 24,
-                              height: 24,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+              ),
+              //!-------------------------------------------"forget password"
+              SizedBox(height: 8.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Forget Password ?  ",
+                    style: TextStyle(
+                      color: Color(0xFF5B36FF),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
+                ],
+              ),
+              //!---------------------------------------------"signin button"
+              SizedBox(height: 48.h),
+              Container(
+                width: 343.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
+                  color: Colors.black,
                 ),
-                //!-------------------------------------------"forget password"
-                SizedBox(height: 8),
-                Container(
-                  width: 343,
-                  height: 22,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Forget Password ?",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, Routes.homeTab);
+                      },
+                      child: Text(
+                        "Sign In",
                         style: TextStyle(
-                          color: Color(0xFF5B36FF),
-                          fontSize: 16,
+                          color: Colors.white,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                //!---------------------------------------------"signin button"
-                SizedBox(height: 48),
-                Container(
-                  width: 343,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.black,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
+              ),
+              //!--------------------------------------------"or login with"
+              SizedBox(height: 24.h),
+              SizedBox(
+                width: 343.w,
+                height: 102.h,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 343.w,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "_______________Or Login with_______________",
+                            style: TextStyle(
+                              color: Color(0xFF8E8E8E),
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 24.h),
+                    SizedBox(
+                      width: 343.w,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: Image.asset('assets/images/Google.png'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                //!--------------------------------------------"or login with"
-                SizedBox(height: 24),
-                Container(
-                  width: 343,
-                  height: 102,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 343,
-                        height: 22,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "_______________Or Login with_______________",
-                              style: TextStyle(
-                                color: Color(0xFF8E8E8E),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Container(
-                        width: 343,
-                        height: 56,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Image.asset('assets/Google.png'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //!----------------------------"u do not have account sign up "
-                SizedBox(height: 120),
-                Row(
+              ),
+              //!----------------------------"u do not have account sign up "
+              SizedBox(height: 120.h),
+              SizedBox(
+                width: double.infinity.h,
+                // height: 25.h,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "You Don’t Have an account ?",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          Routes.signupScreen,
+                        );
+                      },
                       child: Text(
                         "sign up",
                         style: TextStyle(
                           color: Color(0xFF5B36FF),
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.underline,
                           decorationColor: Color(0xFF5B36FF),
@@ -238,8 +231,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

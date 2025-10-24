@@ -1,5 +1,4 @@
-import 'package:final_depi_project/widgets/navigation_bar_widget.dart';
-import 'package:final_depi_project/widgets/order_item_widget.dart';
+import 'package:final_depi_project/features/home_screen/tabs/orders_tab/widgets/order_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,38 +17,33 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
         title: Center(
           child: Text(
             "Track Order",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700),
           ),
         ),
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(Icons.arrow_back_ios, size: 24),
+          icon: Icon(Icons.arrow_back_ios, size: 24.sp),
         ),
       ),
       body: Center(
-        child: Container(
-          width: 343,
-          height: 812,
+        child: SizedBox(
+          width: 343.w,
+
           child: Column(
             children: [
               Expanded(
                 child: ListView.builder(
-                  padding:  EdgeInsets.symmetric(vertical: 8.h),
+                  padding: EdgeInsets.symmetric(vertical: 8.h),
                   itemCount: 10,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 8.h),
-                      child: SizedBox(
-                        width: 343,
-                        height: 150,
-                        child: OrderItemWidget(
-                          title: 'T-shirt',
-                          description:
-                              'Lorem ipsum dolor sit amet consectetur.',
-                          time: '15 min',
-                          photoUrl: '',
-                          orderId: "",
-                        ),
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: OrderItemWidget(
+                        title: 'T-shirt',
+                        description: 'Lorem ipsum dolor sit amet consectetur.',
+                        time: '15 min',
+                        photoUrl: '',
+                        orderId: "",
                       ),
                     );
                   },
@@ -59,7 +53,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      // bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }
