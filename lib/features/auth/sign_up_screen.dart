@@ -170,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, Routes.homeTab);
+                        Navigator.pushReplacementNamed(context, Routes.homeScreen);
                       },
                       child: Text(
                         "Sign Up",

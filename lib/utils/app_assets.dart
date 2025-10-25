@@ -7,5 +7,7 @@ class AppAssets{
   static String homeIcon ="assets/images/home_icon.svg";
   static String cartIcon ="assets/images/cart_icon.svg";
   static String favouriteIcon ="assets/images/favourite_icon.svg";
+  static String favouriteIconSelected ="assets/images/favourite_icon_selected.svg";
   static String profileIcon ="assets/images/profile_icon.svg";
+  static String shirtImage ="assets/images/t-shirt_image.png";
 }
