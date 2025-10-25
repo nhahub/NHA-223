@@ -4,4 +4,8 @@ class AppAssets{
   static String logo="assets/images/logo.svg";
   static String orderPhoto="assets/images/orderphoto.png";
   static String notificationIcon ="assets/images/notification_icon.svg";
+  static String homeIcon ="assets/images/home_icon.svg";
+  static String cartIcon ="assets/images/cart_icon.svg";
+  static String favouriteIcon ="assets/images/favourite_icon.svg";
+  static String profileIcon ="assets/images/profile_icon.svg";
 }

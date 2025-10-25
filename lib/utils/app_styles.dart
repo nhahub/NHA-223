@@ -71,5 +71,17 @@ class AppStyles{
     color: Colors.grey,
     fontWeight: FontWeight.normal,
   );
+  static TextStyle descriptionBlack = TextStyle(
+    fontSize: 12.sp,
+    height: 1.4,
+    color: Colors.black,
+    fontWeight: FontWeight.normal,
+  );
+  static TextStyle descriptionWhite = TextStyle(
+    fontSize: 12.sp,
+    height: 1.4,
+    color: Colors.white,
+    fontWeight: FontWeight.normal,
+  );
 
 }

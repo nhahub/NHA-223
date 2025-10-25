@@ -7,4 +7,7 @@ class Routes {
   static String trackorder = 'trackorder';
   static String trackorder2 = 'trackorder2';
   static String homeTab = 'homeTab';
+  static String OnboardingMain = 'OnboardingMain';
+  static String productDetails = 'ProductDetails';
+  static String homeScreen = 'homeScreen';
 }

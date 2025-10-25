@@ -45,6 +45,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
+      extendBody: true,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
