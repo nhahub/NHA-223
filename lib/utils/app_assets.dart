@@ -10,4 +10,5 @@ class AppAssets{
   static String favouriteIconSelected ="assets/images/favourite_icon_selected.svg";
   static String profileIcon ="assets/images/profile_icon.svg";
   static String shirtImage ="assets/images/t-shirt_image.png";
+  static String lockIcon ="assets/images/Lock.png";
 }
