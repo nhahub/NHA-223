@@ -64,6 +64,12 @@ class AppStyles{
     color: Colors.black,
     fontWeight: FontWeight.normal,
   );
+  static TextStyle body3Bold = TextStyle(
+    fontSize: 20.sp,
+    height: 1.4,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
 
   static TextStyle description = TextStyle(
     fontSize: 12.sp,

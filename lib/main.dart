@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'features/auth/sign_up_screen.dart';
 import 'features/home_screen/tabs/home_tab/home_tab.dart';
+import 'features/home_screen/tabs/profile_tab/edit_profile_screen.dart';
 import 'features/onboarding/onbourdingmain.dart';
 
 
@@ -28,8 +29,9 @@ void main() {
           Routes.OnboardingMain: (context) => OnboardingMain(),
           Routes.productDetails: (context) => ProductDetails(),
           Routes.homeScreen: (context) => HomeScreen(),
+          Routes.editProfileScreen: (context) => EditProfileScreen(),
         },
-        initialRoute: Routes.signinScreen,
+        initialRoute: Routes.editProfileScreen,
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.dark,
       ),
