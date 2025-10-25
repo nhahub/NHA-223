@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderProgressCard extends StatelessWidget {
   final String deliveryBy;
@@ -30,8 +31,6 @@ class OrderProgressCard extends StatelessWidget {
     final step = currentStep.clamp(0, _labels.length - 1);
 
     return Container(
-      width: 343,
-      height: 172,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -50,30 +49,30 @@ class OrderProgressCard extends StatelessWidget {
           //! Title
           Text(
             'Delivery By $deliveryBy',
-            style: const TextStyle(
-              fontSize: 11,
+            style: TextStyle(
+              fontSize: 11.sp,
               fontWeight: FontWeight.w700,
               color: Colors.black87,
             ),
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
 
           RichText(
             text: TextSpan(
               children: [
-                const TextSpan(
+                TextSpan(
                   text: 'Arrival : ',
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 11.sp,
                     color: Colors.black54,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 TextSpan(
                   text: arrivalText,
-                  style: const TextStyle(
-                    fontSize: 11,
+                  style: TextStyle(
+                    fontSize: 11.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
                   ),
@@ -82,12 +81,12 @@ class OrderProgressCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
 
           //! Stepper area: line + circles + labels
           SizedBox(
-            width: 343,
-            height: 34,
+            width: 343.w,
+            height: 45.h,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -95,8 +94,8 @@ class OrderProgressCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    height: 2,
-                    width: double.infinity, // fills the 343 parent
+                    height: 2.h,
+                    width: double.infinity.w, // fills the 343 parent
                     color: const Color(0xFFE0E0E0),
                   ),
                 ),
@@ -121,8 +120,8 @@ class OrderProgressCard extends StatelessWidget {
                     Widget circle;
                     if (isCurrent) {
                       circle = Container(
-                        width: 12,
-                        height: 12,
+                        width: 12.w,
+                        height: 12.h,
                         decoration: const BoxDecoration(
                           color: Colors.black,
                           shape: BoxShape.circle,
@@ -130,24 +129,24 @@ class OrderProgressCard extends StatelessWidget {
                       );
                     } else if (isDone) {
                       circle = Container(
-                        width: 10,
-                        height: 10,
+                        width: 10.w,
+                        height: 10.h,
                         decoration: const BoxDecoration(
                           color: Colors.black,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.check,
-                            size: 8,
+                            size: 8.sp,
                             color: Colors.white,
                           ),
                         ),
                       );
                     } else {
                       circle = Container(
-                        width: 10,
-                        height: 10,
+                        width: 10.w,
+                        height: 10.h,
                         decoration: const BoxDecoration(
                           color: Color(0xFFBDBDBD),
                           shape: BoxShape.circle,
@@ -165,14 +164,14 @@ class OrderProgressCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           circle,
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4.sp),
 
                           Center(
                             child: Text(
                               _labels[index],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 10.sp,
                                 fontWeight: FontWeight.w700,
                                 color: labelColor,
                               ),
@@ -187,12 +186,12 @@ class OrderProgressCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 36),
+          SizedBox(height: 36.h),
 
           Text(
             updatedText.isEmpty ? 'Updated: just now' : updatedText,
             style: TextStyle(
-              fontSize: 8,
+              fontSize: 8.sp,
               color: Colors.grey[500],
               fontWeight: FontWeight.w700,
             ),

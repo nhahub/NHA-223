@@ -10,6 +10,4 @@ class Routes {
   static String OnboardingMain = 'OnboardingMain';
   static String productDetails = 'ProductDetails';
   static String homeScreen = 'homeScreen';
-
-
 }
