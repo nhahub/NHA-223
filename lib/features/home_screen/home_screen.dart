@@ -4,13 +4,12 @@ import 'package:final_depi_project/features/home_screen/tabs/home_tab/home_tab.d
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/orders_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/profile_tab/profile_tab.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
-import 'package:final_depi_project/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

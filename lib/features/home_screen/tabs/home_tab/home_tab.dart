@@ -1,9 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/offer_card.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/offer_slider.dart';
@@ -13,10 +7,9 @@ import 'package:final_depi_project/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeTab extends StatefulWidget {
-   HomeTab({super.key});
+   const HomeTab({super.key});
 
 
   @override

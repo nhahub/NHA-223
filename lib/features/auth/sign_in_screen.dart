@@ -142,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, Routes.homeTab);
+                        Navigator.pushReplacementNamed(context, Routes.homeScreen);
                       },
                       child: Text(
                         "Sign In",
@@ -198,8 +198,7 @@ class _SignInScreenState extends State<SignInScreen> {
               //!----------------------------"u do not have account sign up "
               SizedBox(height: 120.h),
               SizedBox(
-                width: double.infinity.h,
-                // height: 25.h,
+                width: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
