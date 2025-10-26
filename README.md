@@ -8,8 +8,6 @@
 
 E-Commerce App is a Flutter-based mobile shopping experience that lets customers browse products, manage a cart, and complete purchases quickly and securely. The app emphasizes accessibility, strong performance, and a simple, attractive UI so users can shop with minimal friction.
 
-> **Note:** Per the project brief, cross-device “shared” features were intentionally excluded from this documentation and the baseline scope.
-
 ---
 
 ## Key features
@@ -57,17 +55,4 @@ The visual design and interaction prototype for this project were created in Fig
 * Ahmed Ashraf Salah
 * Karas Medhat Zaki
 
----
 
-## Contact & next steps
-
-If you want, I can now:
-
-* Convert this document into a ready-to-copy `README.md` formatted for your GitHub repo (this file is ready).
-* Produce a short `LICENSE` (MIT) and a `CONTRIBUTING.md` template (no code).
-* Create a bilingual (English + Arabic) version of this documentation.
-* Add a clean “Project Roadmap” or “Known Issues / TODO” section derived from the uploaded brief.
-
-Which of the above should I generate next?
-
-> “A great shopping experience is more than products — it’s how easily customers find, decide, and buy.”
