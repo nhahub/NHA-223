@@ -4,7 +4,9 @@ import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/track_order2_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/track_order_screen.dart';
 import 'package:final_depi_project/features/product_detail/product_details.dart';
+import 'package:final_depi_project/firebase_options.dart';
 import 'package:final_depi_project/helpers/routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,7 +14,9 @@ import 'features/auth/sign_up_screen.dart';
 import 'features/home_screen/tabs/home_tab/home_tab.dart';
 import 'features/onboarding/onbourdingmain.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ScreenUtilInit(
       designSize: Size(375, 812),
@@ -24,7 +28,7 @@ void main() {
           Routes.trackorder: (context) => TrackOrderScreen(),
           Routes.trackorder2: (context) => TrackOrderScreen2(),
           Routes.homeTab: (context) => HomeTab(),
-          Routes.OnboardingMain: (context) => OnboardingMain(),
+          Routes.onboardingMain: (context) => OnboardingMain(),
           Routes.productDetails: (context) => ProductDetails(),
           Routes.homeScreen: (context) => HomeScreen(),
         },
