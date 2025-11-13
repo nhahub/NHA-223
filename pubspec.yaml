@@ -40,6 +40,9 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   gap: ^3.0.1
   crystal_navigation_bar: ^1.0.4
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  google_sign_in: ^7.2.0
 
 dev_dependencies:
   flutter_test:
