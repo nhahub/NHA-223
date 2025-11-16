@@ -11,4 +11,5 @@ class Routes {
   static String productDetails = 'ProductDetails';
   static String homeScreen = 'homeScreen';
   static String editProfileScreen = 'editProfileScreen';
+  static const String PaymobPaymentScreen = '/paymob_payment';
 }
