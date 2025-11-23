@@ -13,16 +13,14 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Center(
           child: Text(
             "Track Order",
             style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700),
           ),
-        ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.arrow_back_ios, size: 24.sp),
         ),
       ),
       body: Center(

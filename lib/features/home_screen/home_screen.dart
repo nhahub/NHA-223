@@ -2,6 +2,7 @@ import 'package:final_depi_project/features/home_screen/tabs/cart_tab/cart_tab.d
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/favourite_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/orders_tab.dart';
+import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/track_order_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/profile_tab/profile_tab.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeTab(),
     CartTab(),
     FavouriteTab(),
-    OrdersTab(),
-    ProfileTab(),
+    TrackOrderScreen(),
+    ProfileScreen(),
   ];
 
   int index = 0;
