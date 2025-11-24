@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:final_depi_project/features/auth/auth_service.dart';
 import 'package:final_depi_project/features/auth/google_service.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pay_with_paymob/pay_with_paymob.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -161,34 +165,35 @@ class _SignInScreenState extends State<SignInScreen> {
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      try {
-                        var user = await AuthService.login(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-
-                        if (user.user != null) {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            Routes.homeTab,
-                          );
-                        }
-                      } catch (e) {
-                        // Prevent showing the same SnackBar repeatedly within 3 seconds
-                        final now = DateTime.now();
-                        if (_lastSnackBarTime == null ||
-                            now.difference(_lastSnackBarTime!) >
-                                const Duration(seconds: 3)) {
-                          _lastSnackBarTime = now;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Email or password are incorrect'),
-                              backgroundColor: Colors.red,
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      }
+                      // try {
+                      //   var user = await AuthService.login(
+                      //     email: emailController.text,
+                      //     password: passwordController.text,
+                      //   );
+                      //
+                      //   if (user.user != null) {
+                      //     Navigator.pushReplacementNamed(
+                      //       context,
+                      //       Routes.homeTab,
+                      //     );
+                      //   }
+                      // } catch (e) {
+                      //   // Prevent showing the same SnackBar repeatedly within 3 seconds
+                      //   final now = DateTime.now();
+                      //   if (_lastSnackBarTime == null ||
+                      //       now.difference(_lastSnackBarTime!) >
+                      //           const Duration(seconds: 3)) {
+                      //     _lastSnackBarTime = now;
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //         content: Text('Email or password are incorrect'),
+                      //         backgroundColor: Colors.red,
+                      //         duration: Duration(seconds: 2),
+                      //       ),
+                      //     );
+                      //   }
+                      // }
+                      Navigator.pushReplacementNamed(context, Routes.homeScreen);
                     }
                   },
                   child: Container(

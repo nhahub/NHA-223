@@ -1,7 +1,10 @@
 import 'package:final_depi_project/features/home_screen/tabs/cart_tab/widgets/cart_item_card.dart';
 import 'package:final_depi_project/features/home_screen/tabs/cart_tab/widgets/summary_row.dart';
+import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pay_with_paymob/pay_with_paymob.dart';
 import 'data/models/cart_item.dart';
 
 class CartTab extends StatefulWidget {
@@ -121,7 +124,34 @@ class _CartTabState extends State<CartTab> {
                         ),
                       ),
                       onPressed: () {
-                      //   Todo: navigate to payment
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentView(
+                              onPaymentSuccess: () {
+                                Navigator.pushReplacementNamed(context, Routes.homeScreen);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Payment successful!'),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              },
+                              onPaymentError: () {
+                                Navigator.pushReplacementNamed(context, Routes.homeScreen);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Error while payment please try again'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+
+
+                              },
+                              price: total, // Required: Total price (e.g., 100 for 100 EGP)
+                            ),
+                          ),
+                        );
                       },
                       child: Text(
                         'Check out',

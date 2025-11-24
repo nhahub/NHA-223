@@ -11,4 +11,5 @@ class AppAssets{
   static String profileIcon ="assets/images/profile_icon.svg";
   static String shirtImage ="assets/images/t-shirt_image.png";
   static String lockIcon ="assets/images/Lock.png";
+  static String splashImage ="assets/images/splash_screen.svg";
 }
