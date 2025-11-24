@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'package:final_depi_project/features/auth/sign_in_screen.dart';
+import 'package:final_depi_project/features/home_screen/home_screen.dart';
+import 'package:final_depi_project/utils/app_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'category/category_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,10 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>CategoryScreen()),
+        MaterialPageRoute(builder: (context) =>SignInScreen()),
       );
     });
   }
@@ -38,11 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
             vertical: 12,
             horizontal: 40,
           ),
-          child: Image.asset(
-            'assets/images/1.png',
-            width: 250,
-            fit: BoxFit.contain,
-          ),
+          child: SvgPicture.asset(AppAssets.splashImage),
         ),
       ),
     );
