@@ -22,7 +22,7 @@ import 'features/onboarding/onbourdingmain.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: "constants.env");
+
   Payment.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
