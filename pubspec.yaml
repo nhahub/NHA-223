@@ -45,6 +45,9 @@ dependencies:
   google_sign_in: ^7.2.0
   pay_with_paymob: ^1.4.0
   flutter_dotenv: ^6.0.0
+  dio: ^5.9.0
+  flutter_bloc: ^9.1.1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
