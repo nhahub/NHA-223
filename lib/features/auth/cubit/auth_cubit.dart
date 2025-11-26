@@ -8,10 +8,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.authRepository) : super(AuthInitial());
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     emit(LoginLoadingState());
 
     try {
@@ -19,8 +16,8 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      print("object token is :${loginResponse.token}");
-      await saveToken(loginResponse.token);
+      // print("object token is :${loginResponse.token}");
+      // await saveToken(loginResponse.token);
 
       emit(LoginSuccessState(loginResponse));
     } catch (e) {
@@ -28,16 +25,37 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> saveToken(String token) async {
-    await AppSharedPreferences.setString(
-      SharedPreferencesKeys.token,
-      token,
-    );
+  Future<void> signup({
+    required String name,
+    required String email,
+    required String password,
+    required String rePassword,
+  }) async {
+    emit(SignupLoadingState());
+    try {
+      final response = await authRepository.signup(
+        name: name,
+        email: email,
+        password: password,
+        rePassword: rePassword,
+      );
+      emit(SignupSuccessState(response));
+    }  catch (e) {
+      print("this is the error ${e.toString()}");
+      emit(SignupErrorState(e.toString()));
+    }
   }
 
-  // TODO: still have work to do with it
-  Future<void> logout() async {
-    await AppSharedPreferences.remove(SharedPreferencesKeys.token);
-    emit(AuthInitial());
-  }
+  // Future<void> saveToken(String token) async {
+  //   await AppSharedPreferences.setString(
+  //     SharedPreferencesKeys.token,
+  //     token,
+  //   );
+  // }
+  //
+  // // TODO: still have work to do with it
+  // Future<void> logout() async {
+  //   await AppSharedPreferences.remove(SharedPreferencesKeys.token);
+  //   emit(AuthInitial());
+  // }
 }

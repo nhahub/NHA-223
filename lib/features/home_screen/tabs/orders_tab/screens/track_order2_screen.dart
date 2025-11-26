@@ -28,7 +28,7 @@ class TrackOrderScreen2 extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.popAndPushNamed(context, Routes.trackorder);
+            Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios, size: 24.sp, color: Colors.white),
         ),
