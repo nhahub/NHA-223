@@ -104,34 +104,7 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
 
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-        child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            color: const Color(0xFF0A0909),
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.15),
-                blurRadius: 6,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              _BottomNavItem(icon: Icons.home_outlined, label: "Home"),
-              _BottomNavItem(icon: Icons.shopping_cart_outlined, label: "Cart"),
-              _BottomNavItem(icon: Icons.favorite_border, label: "Favourite"),
-              _BottomNavItem(icon: Icons.location_on_outlined, label: "Location"),
-              _BottomNavItem(
-                  icon: Icons.person, label: "Profile", isActive: true),
-            ],
-          ),
-        ),
-      ),
+
     );
   }
 
@@ -160,37 +133,3 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class _BottomNavItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isActive;
-
-  const _BottomNavItem({
-    required this.icon,
-    required this.label,
-    this.isActive = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          color: Colors.white,
-          size: isActive ? 24 : 22,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 11,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-      ],
-    );
-  }
-}

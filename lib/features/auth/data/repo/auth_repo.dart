@@ -4,6 +4,8 @@ import '../../../../core/dio_helper.dart';
 import '../model/login_response.dart';
 import 'package:dio/dio.dart';
 
+import '../model/signup_response.dart';
+
 class AuthRepository {
 
   Future<LoginResponse> login({
@@ -25,6 +27,28 @@ class AuthRepository {
       } else {
         throw Exception(e.message);
       }
+    }
+  }
+
+  Future<SignupResponse> signup({
+    required String name,
+    required String email,
+    required String password,
+    required String rePassword,
+  }) async{
+
+    try {
+      final response =await DioHelper.post(
+          ApiConstant.signupEndPoint, data: {
+        "name": name,
+        "email": email,
+        "password": password,
+        "rePassword": rePassword,
+        "phone": "012231564798"
+      });
+      return SignupResponse.fromJson(response.data);
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

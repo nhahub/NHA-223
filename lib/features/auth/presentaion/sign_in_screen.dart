@@ -33,11 +33,12 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BlocConsumer<AuthCubit,AuthState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            print("this is my token: ${AppSharedPreferences.getString(SharedPreferencesKeys.token)}");
-            // Navigator.pushReplacementNamed(context, Routes.homeScreen);
+            // print("this is my token: ${AppSharedPreferences.getString(SharedPreferencesKeys.token)}");
+            Navigator.pushReplacementNamed(context, Routes.homeScreen);
           }else if(state is LoginErrorState){
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message),backgroundColor: Colors.red,)
@@ -186,34 +187,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     GestureDetector(
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          // try {
-                          //   var user = await AuthService.login(
-                          //     email: emailController.text,
-                          //     password: passwordController.text,
-                          //   );
-                          //
-                          //   if (user.user != null) {
-                          //     Navigator.pushReplacementNamed(
-                          //       context,
-                          //       Routes.homeTab,
-                          //     );
-                          //   }
-                          // } catch (e) {
-                          //   // Prevent showing the same SnackBar repeatedly within 3 seconds
-                          //   final now = DateTime.now();
-                          //   if (_lastSnackBarTime == null ||
-                          //       now.difference(_lastSnackBarTime!) >
-                          //           const Duration(seconds: 3)) {
-                          //     _lastSnackBarTime = now;
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(
-                          //         content: Text('Email or password are incorrect'),
-                          //         backgroundColor: Colors.red,
-                          //         duration: Duration(seconds: 2),
-                          //       ),
-                          //     );
-                          //   }
-                          // }
                           context.read<AuthCubit>().login(
                             email: emailController.text,
                             password: passwordController.text,
@@ -230,43 +203,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  try {
-                                    var user = await AuthService.login(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    );
-
-                                    if (user.user != null) {
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        Routes.homeTab,
-                                      );
-                                    }
-                                  } catch (e) {
-                                    // Prevent showing the same SnackBar repeatedly within 3 seconds
-                                    final now = DateTime.now();
-                                    if (_lastSnackBarTime == null ||
-                                        now.difference(_lastSnackBarTime!) >
-                                            const Duration(seconds: 3)) {
-                                      _lastSnackBarTime = now;
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            'Email or password are incorrect',
-                                          ),
-                                          backgroundColor: Colors.red,
-                                          duration: Duration(seconds: 2),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                }
-                              },
-
+                              onPressed: () {},
                               child:
-                              isLoading? CircularProgressIndicator():Text(
+                              isLoading? CircularProgressIndicator(
+                                color: Colors.cyan,
+                              ):Text(
                                 "Sign In",
                                 style: TextStyle(
                                   color: Colors.white,
