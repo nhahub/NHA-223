@@ -16,8 +16,8 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      // print("object token is :${loginResponse.token}");
-      // await saveToken(loginResponse.token);
+      print("object token is :${loginResponse.token}");
+      await saveToken(loginResponse.token);
 
       emit(LoginSuccessState(loginResponse));
     } catch (e) {
@@ -40,19 +40,21 @@ class AuthCubit extends Cubit<AuthState> {
         rePassword: rePassword,
       );
       emit(SignupSuccessState(response));
+      saveToken(response.token);
     }  catch (e) {
       print("this is the error ${e.toString()}");
       emit(SignupErrorState(e.toString()));
     }
   }
 
-  // Future<void> saveToken(String token) async {
-  //   await AppSharedPreferences.setString(
-  //     SharedPreferencesKeys.token,
-  //     token,
-  //   );
-  // }
-  //
+  Future<void> saveToken(String token) async {
+    await AppSharedPreferences.setString(
+      SharedPreferencesKeys.token,
+      token,
+    );
+    print("token from sharedprefrences ${AppSharedPreferences.getString(SharedPreferencesKeys.token)}");
+  }
+
   // // TODO: still have work to do with it
   // Future<void> logout() async {
   //   await AppSharedPreferences.remove(SharedPreferencesKeys.token);

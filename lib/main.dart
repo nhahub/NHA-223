@@ -28,7 +28,7 @@ import 'features/auth/data/repo/auth_repo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await AppSharedPreferences.init();
+  await AppSharedPreferences.init();
   Bloc.observer = MyBlocObserver();
   // await SharedPreferences.getInstance();
   DioHelper.init(baseUrl: "https://ecommerce.routemisr.com/api/v1");
