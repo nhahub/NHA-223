@@ -1,7 +1,6 @@
 import 'package:final_depi_project/features/home_screen/tabs/cart_tab/cart_tab.dart';
-import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/favourite_tab.dart';
+import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/presentation/favourite_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/home_tab.dart';
-import 'package:final_depi_project/features/home_screen/tabs/orders_tab/orders_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/track_order_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/profile_tab/profile_tab.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
@@ -36,12 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(16.r)),
         ),
-        margin: EdgeInsets.only(bottom: 24.h,left: 16.w,right: 16.w),
+        margin: EdgeInsets.only(bottom: 24.h, left: 16.w, right: 16.w),
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16.r),
-          child:
-
-          BottomNavigationBar(
+          child: BottomNavigationBar(
             enableFeedback: false,
             showUnselectedLabels: false,
             selectedItemColor: Colors.white,
@@ -56,11 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(AppAssets.homeIcon,),
+                icon: SvgPicture.asset(AppAssets.homeIcon),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(AppAssets.cartIcon,),
+                icon: SvgPicture.asset(AppAssets.cartIcon),
                 label: 'Cart',
               ),
               BottomNavigationBarItem(
