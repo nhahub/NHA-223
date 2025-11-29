@@ -5,7 +5,7 @@ class UnderlinedText extends StatelessWidget {
   final Color color;
   final double fontSize;
   final FontWeight fontWeight;
-  final VoidCallback onTap; // ✅ نحتفظ بـ onTap ونستخدمه
+  final VoidCallback onTap;
 
   const UnderlinedText({
     super.key,

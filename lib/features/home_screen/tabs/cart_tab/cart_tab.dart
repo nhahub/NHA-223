@@ -95,13 +95,7 @@ class CartTabView extends StatelessWidget {
             );
           }
 
-          if (state is CartError) {
-            return buildErrorWidget(
-              context,
-              state.message,
-              isAuthError: state.isAuthError,
-            );
-          }
+
 
           if (state is CartEmpty) {
             return buildEmptyCart(context);
