@@ -1,7 +1,5 @@
-import 'package:final_depi_project/features/auth/auth_service.dart';
 import 'package:final_depi_project/features/auth/cubit/auth_cubit.dart';
 import 'package:final_depi_project/features/auth/cubit/auth_states.dart';
-import 'package:final_depi_project/features/auth/google_service.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController rePasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _obscure = true;
+  bool _obscure2 = true;
   DateTime? _lastSnackBarTime;
 
   @override
@@ -90,17 +89,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               hintText: "enter your name",
                             ),
                             validator: (value) {
-                              if (value == null || value
-                                  .trim()
-                                  .isEmpty)
+                              if (value == null || value.trim().isEmpty)
                                 return 'Please enter your name';
-                              if (value.length < 5)
-                                return 'Enter a valid name';
+                              if (value.length < 5) return 'Enter a valid name';
                               return null;
                             },
                           ),
 
-                          SizedBox(height: 20.h,),
+                          SizedBox(height: 20.h),
                           Text(
                             "E-Mail",
                             style: TextStyle(
@@ -120,9 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               hintText: "enter your email",
                             ),
                             validator: (value) {
-                              if (value == null || value
-                                  .trim()
-                                  .isEmpty)
+                              if (value == null || value.trim().isEmpty)
                                 return 'Please enter your email';
                               final emailRegex = RegExp(
                                 r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
@@ -160,17 +154,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             child: TextFormField(
                               controller: passwordController,
-                              obscureText: false,
+                              obscureText: _obscure,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 label: Text("Enter Password"),
                                 hintText: "enter your password",
-                                suffixIcon: Image.asset(
-                                  'assets/images/Lock.png',
-                                  width: 24.w,
-                                  height: 24.h,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscure = !_obscure;
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/Lock.png',
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
                                 ),
                               ),
                               validator: (value) {
@@ -210,17 +211,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             child: TextFormField(
                               controller: rePasswordController,
-                              obscureText: false,
+                              obscureText: _obscure2,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 label: Text("Enter Password"),
                                 hintText: "enter your password",
-                                suffixIcon: Image.asset(
-                                  'assets/images/Lock.png',
-                                  width: 24.w,
-                                  height: 24.h,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscure2 = !_obscure2;
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/Lock.png',
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
                                 ),
                               ),
                               validator: (value) {
@@ -243,15 +251,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
                           try {
-                            var user = await AuthService.signup(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
-
-                            if (user.user != null) {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                Routes.homeTab,
+                            if (_formKey.currentState!.validate()) {
+                              context.read<AuthCubit>().signup(
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                rePassword: rePasswordController.text,
                               );
                             }
                           } catch (e) {
@@ -264,7 +269,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                      'Email or password are incorrect'),
+                                    'Email or password are incorrect',
+                                  ),
                                   backgroundColor: Colors.red,
                                   duration: Duration(seconds: 2),
                                 ),
@@ -287,24 +293,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   context.read<AuthCubit>().signup(
-                                      name: nameController.text,
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      rePassword:rePasswordController.text);
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    rePassword: rePasswordController.text,
+                                  );
                                 }
                               },
-                              child:
-                              isLoading ? CircularProgressIndicator(
-                                color: Colors.cyan,)
-                                  :
-                              Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
+                              child: isLoading
+                                  ? CircularProgressIndicator(
+                                      color: Colors.cyan,
+                                    )
+                                  : Text(
+                                      "Sign Up",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                             ),
                           ],
                         ),
@@ -343,17 +350,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    var user =
-                                    await AuthService2.signInWithGoogle();
-                                    if (user != null) {
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        Routes.homeScreen,
-                                      );
-                                    }
+                                    // var user =
+                                    //     await AuthService2.signInWithGoogle();
+                                    // if (user != null) {
+                                    //   Navigator.pushReplacementNamed(
+                                    //     context,
+                                    //     Routes.homeScreen,
+                                    //   );
+                                    // }
                                   },
                                   child: Image.asset(
-                                      'assets/images/Google.png'),
+                                    'assets/images/Google.png',
+                                  ),
                                 ),
                               ],
                             ),
@@ -376,7 +384,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         TextButton(
                           onPressed: () {
                             Navigator.popAndPushNamed(
-                                context, Routes.signinScreen);
+                              context,
+                              Routes.signinScreen,
+                            );
                           },
                           child: Text(
                             "sign in",

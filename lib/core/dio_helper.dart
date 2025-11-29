@@ -23,7 +23,9 @@ class DioHelper {
       url,
       queryParameters: query,
       options: token != null
-          ? Options(headers: {'Authorization': 'Bearer $token'})
+          ? Options(
+              headers: {'token': token},
+            ) // Changed from 'Authorization': 'Bearer $token'
           : null,
     );
   }
@@ -38,7 +40,9 @@ class DioHelper {
       url,
       data: data,
       options: token != null
-          ? Options(headers: {'Authorization': 'Bearer $token'})
+          ? Options(
+              headers: {'token': token},
+            ) // Changed from 'Authorization': 'Bearer $token'
           : null,
     );
   }
@@ -53,7 +57,9 @@ class DioHelper {
       url,
       data: data,
       options: token != null
-          ? Options(headers: {'Authorization': 'Bearer $token'})
+          ? Options(
+              headers: {'token': token},
+            ) // Changed from 'Authorization': 'Bearer $token'
           : null,
     );
   }
@@ -68,7 +74,9 @@ class DioHelper {
       url,
       queryParameters: query,
       options: token != null
-          ? Options(headers: {'Authorization': 'Bearer $token'})
+          ? Options(
+              headers: {'token': token},
+            ) // Changed from 'Authorization': 'Bearer $token'
           : null,
     );
   }

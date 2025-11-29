@@ -1,16 +1,9 @@
-import 'dart:math';
-
-import 'package:final_depi_project/core/shared_prefrences.dart';
-import 'package:final_depi_project/features/auth/auth_service.dart';
 import 'package:final_depi_project/features/auth/cubit/auth_cubit.dart';
 import 'package:final_depi_project/features/auth/cubit/auth_states.dart';
-import 'package:final_depi_project/features/auth/google_service.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pay_with_paymob/pay_with_paymob.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -21,10 +14,10 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController(
-    text: "marwanreda@gmail.com"
+    text: "marwanreda@gmail.com",
   );
   TextEditingController passwordController = TextEditingController(
-    text: "Mawran@123"
+    text: "Mawran@123",
   );
   final _formKey = GlobalKey<FormState>();
   bool _obscure = true;
@@ -34,19 +27,22 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocConsumer<AuthCubit,AuthState>(
+      body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
             // print("this is my token: ${AppSharedPreferences.getString(SharedPreferencesKeys.token)}");
             Navigator.pushReplacementNamed(context, Routes.homeScreen);
-          }else if(state is LoginErrorState){
+          } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message),backgroundColor: Colors.red,)
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },
-        builder:(context, state) {
-          bool isLoading=state is LoginLoadingState;
+        builder: (context, state) {
+          bool isLoading = state is LoginLoadingState;
           return SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -149,10 +145,17 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                                 label: Text("Enter Password"),
                                 hintText: "enter your password",
-                                suffixIcon: Image.asset(
-                                  'assets/images/Lock.png',
-                                  width: 24.w,
-                                  height: 24.h,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscure = !_obscure;
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/Lock.png',
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
                                 ),
                               ),
                               validator: (value) {
@@ -203,18 +206,26 @@ class _SignInScreenState extends State<SignInScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
-                              onPressed: () {},
-                              child:
-                              isLoading? CircularProgressIndicator(
-                                color: Colors.cyan,
-                              ):Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<AuthCubit>().login(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+                                }
+                              },
+                              child: isLoading
+                                  ? CircularProgressIndicator(
+                                      color: Colors.cyan,
+                                    )
+                                  : Text(
+                                      "Sign In",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                             ),
                           ],
                         ),
@@ -251,16 +262,18 @@ class _SignInScreenState extends State<SignInScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    var user =
-                                    await AuthService2.signInWithGoogle();
-                                    if (user != null) {
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        Routes.homeScreen,
-                                      );
-                                    }
+                                    // var user =
+                                    //     await AuthService2.signInWithGoogle();
+                                    // if (user != null) {
+                                    //   Navigator.pushReplacementNamed(
+                                    //     context,
+                                    //     Routes.homeScreen,
+                                    //   );
+                                    // }
                                   },
-                                  child: Image.asset('assets/images/Google.png'),
+                                  child: Image.asset(
+                                    'assets/images/Google.png',
+                                  ),
                                 ),
                               ],
                             ),
