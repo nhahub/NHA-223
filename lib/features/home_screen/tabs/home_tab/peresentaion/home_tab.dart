@@ -1,65 +1,29 @@
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/category_widget.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/offer_card.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/offer_slider.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/widgets/search_field.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/cubit/home_cubit.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/data/home_repo/home_repo.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/category_widget.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/offer_card.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/offer_slider.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/search_field.dart';
+import 'package:final_depi_project/features/category/presentaion/products_Screen.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
 import 'package:final_depi_project/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../category/category_screen.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
+
 
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> {
-  late List<CategoryWidget> categoriesList;
-
   @override
   Widget build(BuildContext context) {
-
-    categoriesList = [
-      CategoryWidget(
-        icon: Icons.grid_view_rounded,
-        label: 'All',
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const CategoryScreen()),
-          );
-        },
-      ),
-      CategoryWidget(
-        icon: Icons.male,
-        label: 'Mens',
-        onPressed: () {},
-      ),
-      CategoryWidget(
-        icon: Icons.female,
-        label: 'Women',
-        onPressed: () {},
-      ),
-      CategoryWidget(
-        icon: Icons.style,
-        label: 'Classic',
-        onPressed: () {},
-      ),
-      CategoryWidget(
-        icon: Icons.emoji_people,
-        label: 'T-Shirt',
-        onPressed: () {},
-      ),
-      CategoryWidget(
-        icon: Icons.checkroom_rounded,
-        label: 'Dress',
-        onPressed: () {},
-      ),
-    ];
-
     final theme = Theme.of(context);
     return Scaffold(
       extendBody: true,
@@ -107,16 +71,15 @@ class _HomeTabState extends State<HomeTab> {
               ),
 
               SizedBox(height: 32.h),
-              const SearchField(),
+              SearchField(),
               SizedBox(height: 32.h),
-              const OffersSlider(),
+              OffersSlider(),
               SizedBox(height: 32.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Categories',
-                    style: AppStyles.head3,
+                    style:AppStyles.head3
                   ),
                 ],
               ),
@@ -124,9 +87,13 @@ class _HomeTabState extends State<HomeTab> {
               SizedBox(
                 height: 70.h,
                 child: ListView.separated(
-                  itemBuilder: (context, index) => categoriesList[index],
-                  separatorBuilder: (context, index) => SizedBox(width: 15.w),
-                  itemCount: categoriesList.length,
+                  itemBuilder:(context, index) {
+                    return InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen(index: index,),)),
+                        child: context.read<HomeCubit>().categoriesList[index]);
+                  }  ,
+                  separatorBuilder: (context, index) => SizedBox(width: 15.w,),
+                  itemCount: context.read<HomeCubit>().categoriesList.length,
                   scrollDirection: Axis.horizontal,
                 ),
               ),
@@ -178,3 +145,8 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 }
+
+
+
+
+

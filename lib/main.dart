@@ -4,11 +4,13 @@ import 'package:final_depi_project/core/payment.dart';
 import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_in_screen.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_up_screen.dart';
-import 'package:final_depi_project/features/category/category_screen.dart';
+import 'package:final_depi_project/features/category/presentaion/category_screen.dart';
 import 'package:final_depi_project/features/home_screen/home_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/data/repo/fav_repo.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/home_tab.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/cubit/home_cubit.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/data/home_repo/home_repo.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/home_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/review_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/track_order2_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/orders_tab/screens/track_order_screen.dart';
@@ -26,9 +28,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/data/repo/auth_repo.dart';
-import 'features/category/category_screen.dart';
+import 'features/category/presentaion/category_screen.dart';
 import 'features/category/cubit/productcubit.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,20 +54,21 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (_) => AuthCubit(AuthRepository())),
         BlocProvider<FavCubit>(create: (context) => FavCubit(FavRepo())),
-    BlocProvider<ProductsCubit>(
-    create: (context) => ProductsCubit(),
+        BlocProvider<HomeCubit>(
+          create: (context) => HomeCubit(HomeRepository()),
+        ),
 
-
-      )],
+        BlocProvider<ProductsCubit>(create: (context) => ProductsCubit()),
+      ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.dark,
-          initialRoute: Routes.categoryScreen,
+          initialRoute: Routes.homeScreen,
           routes: {
             Routes.signupScreen: (context) => SignUpScreen(),
-            Routes.categoryScreen:(context)=>CategoryScreen(),
+            Routes.categoryScreen: (context) => CategoryScreen(),
             Routes.signinScreen: (context) => SignInScreen(),
             Routes.reviewScreen: (context) => ReviewScreen(),
             Routes.trackorder: (context) => TrackOrderScreen(),
