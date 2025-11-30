@@ -37,9 +37,12 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 22.w,
-                    backgroundImage: AssetImage(AppAssets.orderPhoto),
+                  InkWell(
+                    onTap: () => context.read<HomeCubit>().getProductById("6428ebc6dc1175abc65ca0b9"),
+                    child: CircleAvatar(
+                      radius: 22.w,
+                      backgroundImage: AssetImage(AppAssets.orderPhoto),
+                    ),
                   ),
                   SizedBox(width: 8.w),
                   Expanded(
