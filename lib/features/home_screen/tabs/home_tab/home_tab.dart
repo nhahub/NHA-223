@@ -8,34 +8,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeTab extends StatefulWidget {
-   const HomeTab({super.key});
+import '../../../category/category_screen.dart';
 
+class HomeTab extends StatefulWidget {
+  const HomeTab({super.key});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> {
-  final List<CategoryWidget> categoriesList= [
-    CategoryWidget(
-      icon: Icons.grid_view_rounded,
-      label: 'All',
-    ),
-    CategoryWidget(icon: Icons.male, label: 'Mens'),
-    CategoryWidget(icon: Icons.female, label: 'Women'),
-    CategoryWidget(icon: Icons.style, label: 'Classic'),
-    CategoryWidget(
-      icon: Icons.emoji_people,
-      label: 'T-Shirt',
-    ),
-    CategoryWidget(
-      icon: Icons.checkroom_rounded,
-      label: 'Dress',
-    ),
-  ];
+  late List<CategoryWidget> categoriesList;
+
   @override
   Widget build(BuildContext context) {
+
+    categoriesList = [
+      CategoryWidget(
+        icon: Icons.grid_view_rounded,
+        label: 'All',
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const CategoryScreen()),
+          );
+        },
+      ),
+      CategoryWidget(
+        icon: Icons.male,
+        label: 'Mens',
+        onPressed: () {},
+      ),
+      CategoryWidget(
+        icon: Icons.female,
+        label: 'Women',
+        onPressed: () {},
+      ),
+      CategoryWidget(
+        icon: Icons.style,
+        label: 'Classic',
+        onPressed: () {},
+      ),
+      CategoryWidget(
+        icon: Icons.emoji_people,
+        label: 'T-Shirt',
+        onPressed: () {},
+      ),
+      CategoryWidget(
+        icon: Icons.checkroom_rounded,
+        label: 'Dress',
+        onPressed: () {},
+      ),
+    ];
+
     final theme = Theme.of(context);
     return Scaffold(
       extendBody: true,
@@ -83,16 +107,16 @@ class _HomeTabState extends State<HomeTab> {
               ),
 
               SizedBox(height: 32.h),
-              SearchField(),
+              const SearchField(),
               SizedBox(height: 32.h),
-              OffersSlider(),
+              const OffersSlider(),
               SizedBox(height: 32.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Categories',
-                    style:AppStyles.head3
+                    style: AppStyles.head3,
                   ),
                 ],
               ),
@@ -100,9 +124,8 @@ class _HomeTabState extends State<HomeTab> {
               SizedBox(
                 height: 70.h,
                 child: ListView.separated(
-
-                  itemBuilder:(context, index) => categoriesList[index] ,
-                  separatorBuilder: (context, index) => SizedBox(width: 15.w,),
+                  itemBuilder: (context, index) => categoriesList[index],
+                  separatorBuilder: (context, index) => SizedBox(width: 15.w),
                   itemCount: categoriesList.length,
                   scrollDirection: Axis.horizontal,
                 ),
@@ -132,14 +155,14 @@ class _HomeTabState extends State<HomeTab> {
                 children: const [
                   OfferCard(
                     image:
-                        'https://images.pexels.com/photos/3771674/pexels-photo-3771674.jpeg?auto=compress&cs=tinysrgb&w=800',
+                    'https://images.pexels.com/photos/3771674/pexels-photo-3771674.jpeg?auto=compress&cs=tinysrgb&w=800',
                     tag: '50% Offer',
                     title: 'Dress Children',
                     rating: 4.4,
                   ),
                   OfferCard(
                     image:
-                        'https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg?auto=compress&cs=tinysrgb&w=800',
+                    'https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg?auto=compress&cs=tinysrgb&w=800',
                     tag: '30% Off',
                     title: 'T-shirt',
                     rating: 4.6,
@@ -155,8 +178,3 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 }
-
-
-
-
-
