@@ -30,7 +30,7 @@ class _FavouriteTabState extends State<FavouriteTab> {
     if (token != null && token!.isNotEmpty) {
       _favCubit.getAllFavorites(token!);
     } else {
-      _favCubit.emit(FavError("Please login to view favorites"));
+      _favCubit.emit(FavError("Connection Error"));
     }
   }
 

@@ -8,6 +8,4 @@ class ApiConstant {
 
   static String cartEndPoint = "/cart";
   static String productsEndPoint = "/products";
-
-
 }

@@ -40,14 +40,24 @@ class FavCubit extends Cubit<FavState> {
   }
 
   Future<void> removeFromFavorites(String productId, String token) async {
+    // Store current state for rollback
     final currentFavorites = List<WishlistProduct>.from(favorites);
 
     try {
+      // Show loading state for this specific product
+      emit(FavLoading());
+
+      // Call API first
+      final response = await _favRepo.removeFromFavorites(productId, token);
+
+      // Only remove from UI after successful API call
       favorites.removeWhere((product) => product.id == productId);
       emit(AllFavLoaded(List.from(favorites)));
-      final response = await _favRepo.removeFromFavorites(productId, token);
+
+      // Show success message
       emit(FavSuccess(response.message));
     } catch (e) {
+      // Restore original state on error
       favorites = currentFavorites;
       emit(AllFavLoaded(favorites));
       log('Error removing from favorites: $e');
