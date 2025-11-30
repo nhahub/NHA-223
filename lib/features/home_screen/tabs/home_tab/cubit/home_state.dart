@@ -32,3 +32,16 @@ class ProductsError extends HomeState {
 
   ProductsError(this.message);
 }
+
+class GetProductByIdSuccess extends HomeState {
+  final Product product;
+  GetProductByIdSuccess(this.product);
+}
+
+class GetProductByIdLoading extends HomeState {
+}
+
+class GetProductByIdError extends HomeState {
+  final String message;
+  GetProductByIdError(this.message);
+}

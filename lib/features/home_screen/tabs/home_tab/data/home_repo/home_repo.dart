@@ -42,6 +42,22 @@ class HomeRepository {
     }
   }
 
+  Future<Product> getProductById(String id) async {
+    try {
+      final response = await DioHelper.get(
+        "${ApiConstant.productEndPoint}/$id",
+      );
+
+      return Product.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response?.data['message'] ?? 'Failed to load product');
+      } else {
+        throw Exception('Network Error: ${e.message}');
+      }
+    }
+  }
+
 
 
 

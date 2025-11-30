@@ -76,6 +76,17 @@ class HomeCubit extends Cubit<HomeState> {
       emit(ProductsError(e.toString()));
     }
   }
+  Future<void> getProductById(String id) async {
+    emit(GetProductByIdLoading());
+
+    try {
+      final product = await homeRepository.getProductById(id);
+      emit(GetProductByIdSuccess(product));
+    } catch (e) {
+      emit(GetProductByIdError(e.toString()));
+    }
+  }
+
 
   Map<String, List<Product>> _separateProductsByCategory(ProductResponse response) {
     final products = response.data ?? [];
