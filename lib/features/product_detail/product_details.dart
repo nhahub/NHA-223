@@ -8,6 +8,8 @@ import 'package:final_depi_project/features/product_detail/widget/smalphoto.dart
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../helpers/routes.dart';
+
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key});
 
@@ -69,7 +71,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                             size: 27,
                             color: Colors.white,
                           ),
-                          onPressed: () => Navigator.of(context).pop(),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(Routes.homeScreen);
+                            }
                         ),
                       ),
                       Positioned(

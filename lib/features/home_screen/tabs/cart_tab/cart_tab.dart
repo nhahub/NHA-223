@@ -46,16 +46,140 @@ class CartTabView extends StatelessWidget {
       SnackBar(content: Text(message), backgroundColor: Colors.green),
     );
   }
+// في ملف cart_tab.dart
+// استبدل دالة _showDeleteConfirmation بهذه الدالة:
 
-  void _showDeleteConfirmation(BuildContext context, String itemId, String itemName) {
-    showDeleteConfirmation(
+  void _showDeleteConfirmation(BuildContext context, String itemId, String itemName) async {
+    final result = await showDialog<bool>(
       context: context,
-      itemId: itemId,
-      itemName: itemName,
-      onSuccess: () {
-        _showSuccessSnackBar(context, 'Item removed from cart');
-      },
+      barrierDismissible: false,
+      builder: (dialogContext) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Container(
+          padding: EdgeInsets.all(24.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon
+              Container(
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.delete_outline_rounded,
+                  color: Colors.red,
+                  size: 48.sp,
+                ),
+              ),
+
+              SizedBox(height: 20.h),
+
+              // Title
+              Text(
+                'Remove Item?',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+
+              SizedBox(height: 12.h),
+
+              // Message
+              Text(
+                'Are you sure you want to remove\n"$itemName" from your cart?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.grey[600],
+                  height: 1.4,
+                ),
+              ),
+
+              SizedBox(height: 24.h),
+
+              // Buttons
+              Row(
+                children: [
+                  // Cancel Button
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(false),
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        side: BorderSide(
+                          color: Colors.grey[300]!,
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(width: 12.w),
+
+                  // Delete Button
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(true),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        'Remove',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
+
+    // لو المستخدم ضغط Remove
+    if (result == true && context.mounted) {
+      try {
+        await context.read<CartCubit>().removeItem(itemId);
+        if (context.mounted) {
+          _showSuccessSnackBar(context, 'Item removed from cart');
+        }
+      } catch (e) {
+        if (context.mounted) {
+          _showErrorSnackBar(context, 'Failed to remove item');
+        }
+      }
+    }
   }
 
   @override

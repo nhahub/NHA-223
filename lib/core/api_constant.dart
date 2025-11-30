@@ -4,4 +4,7 @@ class ApiConstant {
   static String loginEndPoint = "/auth/signin";
   static String wishlistEndPoint = "/wishlist";
   static String cartEndPoint = "/cart";
+  static String productsEndPoint = "/products";
+
+
 }
