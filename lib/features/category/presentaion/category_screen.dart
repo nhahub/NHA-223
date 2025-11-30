@@ -1,3 +1,5 @@
+import 'package:final_depi_project/core/shared_prefrences.dart';
+import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -138,9 +140,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               color: Colors.black,
                               size: 22.sp,
                             ),
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(Routes.homeScreen);
-                              }                          ),
+                            onPressed: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(Routes.homeScreen);
+                            },
+                          ),
                           Text(
                             "All Products",
                             style: TextStyle(
@@ -164,9 +169,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
 
                 // Content Section
-                Expanded(
-                  child: _buildContent(state),
-                ),
+                Expanded(child: _buildContent(state)),
               ],
             ),
           );
@@ -242,177 +245,197 @@ class _CategoryScreenState extends State<CategoryScreen> {
     final productId = product['_id'] ?? product['id'] ?? '';
     final isAdding = _addingToCart.contains(productId);
 
-    return Material(
-      borderRadius: BorderRadius.circular(16.r),
-      color: Colors.white,
-      elevation: 2,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
+    return BlocBuilder<FavCubit, FavState>(
+      builder: (context, state) {
+        final favCubit = FavCubit.get(context);
+        final isFavorite = favCubit.isProductInFavorites(productId);
+
+        return Material(
           borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Stack(
-          children: [
-            // Product Image
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
-                image: DecorationImage(
-                  image: NetworkImage(product['imageCover'] ?? ''),
-                  fit: BoxFit.cover,
-                ),
-              ),
+          color: Colors.white,
+          elevation: 2,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
             ),
-
-            // Gradient Overlay for text readability
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.6),
-                  ],
-                ),
-              ),
-            ),
-
-            // Favorite Button
-            Positioned(
-              top: 8.w,
-              right: 8.w,
-              child: Container(
-                padding: EdgeInsets.all(6.w),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.9),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.favorite_border,
-                  color: Colors.black,
-                  size: 16.sp,
-                ),
-              ),
-            ),
-
-            // Product Details at bottom
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.all(12.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product['title'] ?? 'No Title',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        height: 1.2,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            child: Stack(
+              children: [
+                // Product Image
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.r),
+                    image: DecorationImage(
+                      image: NetworkImage(product['imageCover'] ?? ''),
+                      fit: BoxFit.cover,
                     ),
-                    SizedBox(height: 8.h),
-                    Row(
+                  ),
+                ),
+
+                // Gradient Overlay for text readability
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.r),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.6),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Favorite Button
+                Positioned(
+                  top: 8.w,
+                  right: 8.w,
+                  child: GestureDetector(
+                    onTap: () async {
+                      final token = await AppSharedPreferences.getString(
+                        SharedPreferencesKeys.token,
+                      );
+                      if (token != null && productId.isNotEmpty) {
+                        favCubit.toggleFavorite(productId, token);
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(6.w),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.black,
+                        size: 16.sp,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Product Details at bottom
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(12.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Rating
+                        Text(
+                          product['title'] ?? 'No Title',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            height: 1.2,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 8.h),
                         Row(
                           children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.orange,
-                              size: 12.sp,
+                            // Rating
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                  size: 12.sp,
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  '${product['ratingsAverage'] ?? '0.0'}',
+                                  style: TextStyle(
+                                    fontSize: 11.sp,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 4.w),
-                            Text(
-                              '${product['ratingsAverage'] ?? '0.0'}',
-                              style: TextStyle(
-                                fontSize: 11.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
+
+                            const Spacer(),
+
+                            // Price
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Text(
+                                "\$${product['price']?.toString() ?? '0'}",
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: 8.w),
+
+                            // Add to Cart Button
+                            GestureDetector(
+                              onTap: isAdding
+                                  ? null
+                                  : () => _addToCart(product),
+                              child: Container(
+                                padding: EdgeInsets.all(6.w),
+                                decoration: BoxDecoration(
+                                  color: isAdding
+                                      ? Colors.grey.withOpacity(0.5)
+                                      : Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 4.w,
+                                      offset: Offset(0, 2.h),
+                                    ),
+                                  ],
+                                ),
+                                child: isAdding
+                                    ? SizedBox(
+                                        width: 14.sp,
+                                        height: 14.sp,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                Colors.black,
+                                              ),
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.add_shopping_cart,
+                                        color: Colors.black,
+                                        size: 14.sp,
+                                      ),
                               ),
                             ),
                           ],
                         ),
-
-                        const Spacer(),
-
-                        // Price
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Text(
-                            "\$${product['price']?.toString() ?? '0'}",
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(width: 8.w),
-
-                        // Add to Cart Button
-                        GestureDetector(
-                          onTap: isAdding ? null : () => _addToCart(product),
-                          child: Container(
-                            padding: EdgeInsets.all(6.w),
-                            decoration: BoxDecoration(
-                              color: isAdding
-                                  ? Colors.grey.withOpacity(0.5)
-                                  : Colors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 4.w,
-                                  offset: Offset(0, 2.h),
-                                ),
-                              ],
-                            ),
-                            child: isAdding
-                                ? SizedBox(
-                              width: 14.sp,
-                              height: 14.sp,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.black,
-                                ),
-                              ),
-                            )
-                                : Icon(
-                              Icons.add_shopping_cart,
-                              color: Colors.black,
-                              size: 14.sp,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -438,10 +461,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SizedBox(height: 8.h),
           Text(
             'Start shopping to see products here',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 14.sp, color: Colors.grey),
           ),
         ],
       ),
@@ -455,11 +475,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64.sp,
-              color: Colors.red[300],
-            ),
+            Icon(Icons.error_outline, size: 64.sp, color: Colors.red[300]),
             SizedBox(height: 16.h),
             Text(
               'Oops! Something went wrong',
@@ -472,10 +488,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             SizedBox(height: 8.h),
             Text(
               state.message,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 14.sp, color: Colors.grey),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 24.h),
@@ -485,10 +498,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0A0A0A),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24.w,
-                  vertical: 12.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),

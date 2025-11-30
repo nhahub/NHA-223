@@ -28,7 +28,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/data/repo/auth_repo.dart';
-import 'features/category/presentaion/category_screen.dart';
 import 'features/category/cubit/productcubit.dart';
 
 void main() async {
@@ -65,7 +64,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.dark,
-          initialRoute: Routes.homeScreen,
+          initialRoute: Routes.signinScreen,
           routes: {
             Routes.signupScreen: (context) => SignUpScreen(),
             Routes.categoryScreen: (context) => CategoryScreen(),
