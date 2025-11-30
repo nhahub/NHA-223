@@ -28,6 +28,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/data/repo/auth_repo.dart';
 import 'features/category/cubit/productcubit.dart';
+import 'features/home_screen/tabs/cart_tab/cubit/cart_cubit.dart';
+import 'features/home_screen/tabs/cart_tab/data/CartRepository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +57,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<HomeCubit>(
           create: (context) => HomeCubit(HomeRepository()),
         ),
-
+        BlocProvider<CartCubit>(
+          create: (context) => CartCubit(
+            CartRepository(DioHelper.dio),
+          ),
+        ),
         BlocProvider<ProductsCubit>(create: (context) => ProductsCubit()),
       ],
       child: ScreenUtilInit(

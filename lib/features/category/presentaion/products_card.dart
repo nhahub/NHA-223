@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
+import 'package:final_depi_project/features/home_screen/tabs/cart_tab/cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -292,6 +293,7 @@ class _FavoriteButtonState extends State<_FavoriteButton> with SingleTickerProvi
   }
 }
 
+// 🔥 الكلاس المعدل بالكامل
 class _AddToCartButton extends StatefulWidget {
   final Product product;
 
@@ -301,8 +303,24 @@ class _AddToCartButton extends StatefulWidget {
   State<_AddToCartButton> createState() => _AddToCartButtonState();
 }
 
-class _AddToCartButtonState extends State<_AddToCartButton> {
+class _AddToCartButtonState extends State<_AddToCartButton> with SingleTickerProviderStateMixin {
   bool _isAddingToCart = false;
+  late AnimationController _successAnimationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _successAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _successAnimationController.dispose();
+    super.dispose();
+  }
 
   Future<void> _handleAddToCart() async {
     if (_isAddingToCart) return;
@@ -311,65 +329,133 @@ class _AddToCartButtonState extends State<_AddToCartButton> {
       _isAddingToCart = true;
     });
 
-    setState(() {
-      _isAddingToCart = false;
-    });
+    try {
+      final cartCubit = context.read<CartCubit>();
 
-    // Show success feedback
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${widget.product.title} added to cart!'),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+      // 🔥 الـ Cubit هيعمل الإضافة والـ refresh تلقائياً
+      await cartCubit.addToCart(widget.product.id ?? '');
+
+      // Animation للنجاح
+      await _successAnimationController.forward(from: 0.0);
+      await _successAnimationController.reverse();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: Text(
+                    '${widget.product.title} added to cart!',
+                    style: TextStyle(fontFamily: "Poppins"),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            duration: const Duration(seconds: 2),
+            action: SnackBarAction(
+              label: 'View Cart',
+              textColor: Colors.white,
+              onPressed: () {
+                // يمكن الانتقال للكارت هنا
+                // Navigator.pushNamed(context, Routes.cartTab);
+              },
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error_outline, color: Colors.white),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: Text(
+                    'Failed to add to cart. Please try again.',
+                    style: TextStyle(fontFamily: "Poppins"),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      print('❌ Error adding to cart: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isAddingToCart = false;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _isAddingToCart ? null : _handleAddToCart,
-      child: TweenAnimationBuilder(
-        duration: const Duration(milliseconds: 200),
-        tween: Tween<double>(begin: 1.0, end: _isAddingToCart ? 0.8 : 1.0),
-        builder: (context, scale, child) {
-          return Transform.scale(
-            scale: scale,
-            child: child,
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.all(6.w),
-          decoration: BoxDecoration(
-            color: _isAddingToCart
-                ? Colors.grey.withOpacity(0.5)
-                : Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 4.w,
-                offset: Offset(0, 2.h),
-              ),
-            ],
+      child: ScaleTransition(
+        scale: _successAnimationController.drive(
+          Tween<double>(begin: 1.0, end: 1.3).chain(
+            CurveTween(curve: Curves.easeInOut),
           ),
-          child: _isAddingToCart
-              ? SizedBox(
-            width: 14.sp,
-            height: 14.sp,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                Colors.black,
-              ),
+        ),
+        child: TweenAnimationBuilder(
+          duration: const Duration(milliseconds: 200),
+          tween: Tween<double>(begin: 1.0, end: _isAddingToCart ? 0.8 : 1.0),
+          builder: (context, scale, child) {
+            return Transform.scale(
+              scale: scale,
+              child: child,
+            );
+          },
+          child: Container(
+            padding: EdgeInsets.all(6.w),
+            decoration: BoxDecoration(
+              color: _isAddingToCart
+                  ? Colors.grey.withOpacity(0.5)
+                  : Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4.w,
+                  offset: Offset(0, 2.h),
+                ),
+              ],
             ),
-          )
-              : Icon(
-            Icons.add_shopping_cart,
-            color: Colors.black,
-            size: 14.sp,
+            child: _isAddingToCart
+                ? SizedBox(
+              width: 14.sp,
+              height: 14.sp,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.black,
+                ),
+              ),
+            )
+                : Icon(
+              Icons.add_shopping_cart,
+              color: Colors.black,
+              size: 14.sp,
+            ),
           ),
         ),
       ),

@@ -1,154 +1,68 @@
+import '../../../home_tab/data/model/get_all_product_response.dart';
+
 class Product {
-  final String id;
-  final String name;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final String? brand;
-  final String? category;
-  final int? stock;
-  final double? rating;
-  final int? ratingsQuantity;
+  final String? id;
+  final String? title;
+  final int? quantity;
+  final String? imageCover;
+  final Category? category;
+  final Brand? brand;
+  final double? ratingsAverage;
+  final List<Subcategory>? subcategory;
 
   Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-    this.brand,
+    this.id,
+    this.title,
+    this.quantity,
+    this.imageCover,
     this.category,
-    this.stock,
-    this.rating,
-    this.ratingsQuantity,
+    this.brand,
+    this.ratingsAverage,
+    this.subcategory,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    try {
-      // استخراج القيم بشكل آمن
-      String productId = '';
-      if (json['_id'] != null) {
-        productId = json['_id'].toString();
-      } else if (json['id'] != null) {
-        productId = json['id'].toString();
-      }
-
-      String productName = '';
-      if (json['title'] != null) {
-        productName = json['title'].toString();
-      } else if (json['name'] != null) {
-        productName = json['name'].toString();
-      }
-
-      String productDescription = '';
-      if (json['description'] != null) {
-        productDescription = json['description'].toString();
-      }
-
-      double productPrice = 0.0;
-      if (json['price'] != null) {
-        productPrice = double.tryParse(json['price'].toString()) ?? 0.0;
-      }
-
-      String productImage = '';
-      if (json['imageCover'] != null) {
-        productImage = json['imageCover'].toString();
-      } else if (json['image'] != null) {
-        productImage = json['image'].toString();
-      }
-
-      String? productBrand;
-      if (json['brand'] != null) {
-        if (json['brand'] is Map) {
-          productBrand = json['brand']['name']?.toString();
-        } else {
-          productBrand = json['brand'].toString();
-        }
-      }
-
-      String? productCategory;
-      if (json['category'] != null) {
-        if (json['category'] is Map) {
-          productCategory = json['category']['name']?.toString();
-        } else {
-          productCategory = json['category'].toString();
-        }
-      }
-
-      int? productStock;
-      if (json['quantity'] != null) {
-        productStock = int.tryParse(json['quantity'].toString());
-      } else if (json['stock'] != null) {
-        productStock = int.tryParse(json['stock'].toString());
-      }
-
-      double? productRating;
-      if (json['ratingsAverage'] != null) {
-        productRating = double.tryParse(json['ratingsAverage'].toString());
-      }
-
-      int? ratingsQty;
-      if (json['ratingsQuantity'] != null) {
-        ratingsQty = int.tryParse(json['ratingsQuantity'].toString());
-      }
-
-      return Product(
-        id: productId,
-        name: productName,
-        description: productDescription,
-        price: productPrice,
-        imageUrl: productImage,
-        brand: productBrand,
-        category: productCategory,
-        stock: productStock,
-        rating: productRating,
-        ratingsQuantity: ratingsQty,
-      );
-    } catch (e) {
-      print('❌ Error in Product.fromJson: $e');
-      print('JSON data: $json');
-      rethrow;
-    }
+    return Product(
+      id: json['_id'] ?? json['id'],
+      title: json['title'],
+      quantity: json['quantity'],
+      imageCover: json['imageCover'],
+      category: json['category'] != null ? Category.fromJson(json['category']) : null,
+      brand: json['brand'] != null ? Brand.fromJson(json['brand']) : null,
+      ratingsAverage: json['ratingsAverage']?.toDouble(),
+      subcategory: json['subcategory'] != null
+          ? (json['subcategory'] as List).map((v) => Subcategory.fromJson(v)).toList()
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'title': name,
-      'description': description,
-      'price': price,
-      'imageCover': imageUrl,
-      'brand': brand,
-      'category': category,
-      'quantity': stock,
-      'ratingsAverage': rating,
-      'ratingsQuantity': ratingsQuantity,
-    };
-  }
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = id;
+    data['title'] = title;
+    data['quantity'] = quantity;
+    data['imageCover'] = imageCover;
+    data['ratingsAverage'] = ratingsAverage;
+    data['id'] = id;
 
-  Product copyWith({
-    String? id,
-    String? name,
-    String? description,
-    double? price,
-    String? imageUrl,
-    String? brand,
-    String? category,
-    int? stock,
-    double? rating,
-    int? ratingsQuantity,
-  }) {
-    return Product(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      price: price ?? this.price,
-      imageUrl: imageUrl ?? this.imageUrl,
-      brand: brand ?? this.brand,
-      category: category ?? this.category,
-      stock: stock ?? this.stock,
-      rating: rating ?? this.rating,
-      ratingsQuantity: ratingsQuantity ?? this.ratingsQuantity,
-    );
+    if (category != null) {
+      data['category'] = category!;
+    }
+
+    if (brand != null) {
+      data['brand'] = brand!;
+    }
+
+    if (subcategory != null) {
+      data['subcategory'] = subcategory!.map((sub) {
+        return {
+          '_id': sub.id,
+          'name': sub.name,
+
+        };
+      }).toList();
+    }
+
+    return data;
   }
 }

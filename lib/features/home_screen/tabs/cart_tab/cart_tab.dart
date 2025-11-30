@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pay_with_paymob/pay_with_paymob.dart';
 import 'cubit/cart_cubit.dart';
+import 'data/models/cartmodel.dart';
 import 'widgets/cart_item_card.dart';
 import 'widgets/summary_row.dart';
 import 'widgets/EmptyCart.dart';
@@ -39,6 +40,7 @@ class CartTabView extends StatelessWidget {
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -50,6 +52,7 @@ class CartTabView extends StatelessWidget {
         backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -67,7 +70,7 @@ class CartTabView extends StatelessWidget {
 
     if (result == true && context.mounted) {
       try {
-        // await context.read<CartCubit>().removeItem(itemId);
+        await context.read<CartCubit>().removeItem(itemId);
         if (context.mounted) {
           _showSuccessSnackBar(context, 'Item removed from cart');
         }
@@ -85,6 +88,8 @@ class CartTabView extends StatelessWidget {
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => PaymentView(
           onPaymentSuccess: () {
+            // مسح الكارت بعد الدفع الناجح
+            context.read<CartCubit>().clearCart();
             Navigator.pushReplacementNamed(
               context,
               Routes.homeScreen,
@@ -136,7 +141,6 @@ class CartTabView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -147,6 +151,21 @@ class CartTabView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          // لو الـ state لسه Initial، نعرض الـ Empty Cart
+          if (state is CartInitial) {
+            return TweenAnimationBuilder(
+              duration: const Duration(milliseconds: 600),
+              tween: Tween<double>(begin: 0.0, end: 1.0),
+              builder: (context, opacity, child) {
+                return Opacity(
+                  opacity: opacity,
+                  child: child,
+                );
+              },
+              child: buildEmptyCart(context),
+            );
+          }
+
           if (state is CartLoading) {
             return Center(
               child: TweenAnimationBuilder(
@@ -180,14 +199,14 @@ class CartTabView extends StatelessWidget {
             );
           }
 
-          // if (state is CartLoaded) {
-          //   return _buildCartContent(context, state.cart);
-          // }
+          if (state is CartLoaded) {
+            return _buildCartContent(context, state.cart);
+          }
 
           if (state is CartUpdating) {
             return Stack(
               children: [
-                // _buildCartContent(context, state.cart),
+                _buildCartContent(context, state.cart),
                 TweenAnimationBuilder(
                   duration: const Duration(milliseconds: 300),
                   tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -218,16 +237,16 @@ class CartTabView extends StatelessWidget {
     );
   }
 
-  Widget _buildCartContent(BuildContext context, cart) {
+  Widget _buildCartContent(BuildContext context, CartModel cart) {
     final double shipping = 0;
-    final double total = cart.totalCartPrice + shipping;
+    final double total = (cart.totalCartPrice ?? 0).toDouble() + shipping;
 
     final bottomNavigationBarHeight = 5.h;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return RefreshIndicator(
       onRefresh: () async {
-        // await context.read<CartCubit>().refreshCart();
+        await context.read<CartCubit>().refreshCart();
       },
       color: Color(0xFF0B0B0B),
       child: Column(
@@ -235,9 +254,9 @@ class CartTabView extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
-              itemCount: cart.items.length,
+              itemCount: cart.items?.length ?? 0,
               itemBuilder: (context, index) {
-                final item = cart.items[index];
+                final item = cart.items![index];
                 return TweenAnimationBuilder(
                   duration: Duration(milliseconds: 400 + (index * 100)),
                   tween: Tween<double>(begin: 0.9, end: 1.0),
@@ -264,22 +283,22 @@ class CartTabView extends StatelessWidget {
                     child: CartItemCard(
                       item: item,
                       onIncrease: () {
-                        // context.read<CartCubit>().increaseQuantity(
-                        //   item.id ?? '',
-                        //   item.count,
-                        // );
+                        context.read<CartCubit>().increaseQuantity(
+                          item.productId ?? '',
+                          item.count,
+                        );
                       },
                       onDecrease: () {
-                        // context.read<CartCubit>().decreaseQuantity(
-                        //   item.id ?? '',
-                        //   item.count,
-                        // );
+                        context.read<CartCubit>().decreaseQuantity(
+                          item.productId ?? '',
+                          item.count,
+                        );
                       },
                       onDelete: () {
                         _showDeleteConfirmation(
-                            context,
-                            item.id ?? '',
-                            item.product?.name ?? 'Item'
+                          context,
+                          item.productId ?? '',
+                          'Product ${item.productId}',
                         );
                       },
                       onEdit: () {},
@@ -339,7 +358,7 @@ class CartTabView extends StatelessWidget {
                         SizedBox(height: 10.h),
                         SummaryRow(
                           label: 'Subtotal',
-                          value: '\$${cart.totalCartPrice.toStringAsFixed(2)}',
+                          value: '\$${(cart.totalCartPrice ?? 0).toStringAsFixed(2)}',
                         ),
                         SizedBox(height: 6.h),
                         SummaryRow(
