@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../helpers/routes.dart';
-import '../home_screen/tabs/cart_tab/LocalCartService.dart';
-import 'cubit/ProductsStates.dart';
-import 'cubit/productcubit.dart';
+import '../../../helpers/routes.dart';
+import '../../home_screen/tabs/cart_tab/LocalCartService.dart';
+import '../cubit/ProductsStates.dart';
+import '../cubit/productcubit.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});

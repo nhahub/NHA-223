@@ -4,7 +4,7 @@ import 'package:final_depi_project/core/payment.dart';
 import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_in_screen.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_up_screen.dart';
-import 'package:final_depi_project/features/category/category_screen.dart';
+import 'package:final_depi_project/features/category/presentaion/category_screen.dart';
 import 'package:final_depi_project/features/home_screen/home_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/data/repo/fav_repo.dart';
@@ -28,7 +28,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/data/repo/auth_repo.dart';
-import 'features/category/category_screen.dart';
+import 'features/category/presentaion/category_screen.dart';
 import 'features/category/cubit/productcubit.dart';
 
 void main() async {

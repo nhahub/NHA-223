@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'home_screen/tabs/home_tab/data/model/get_all_product_response.dart';
+import '../../home_screen/tabs/home_tab/data/model/get_all_product_response.dart';
 
 class ProductsCard extends StatelessWidget {
   ProductsCard({
     super.key,
     required this.product
   });
-  Product product;
+ final Product product;
   @override
   Widget build(BuildContext context) {
     return Container(

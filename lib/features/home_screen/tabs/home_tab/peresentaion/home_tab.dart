@@ -4,7 +4,7 @@ import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentai
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/offer_card.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/offer_slider.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/search_field.dart';
-import 'package:final_depi_project/features/products_Screen.dart';
+import 'package:final_depi_project/features/category/presentaion/products_Screen.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
 import 'package:final_depi_project/utils/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -22,23 +22,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  final List<CategoryWidget> categoriesList= [
-    CategoryWidget(
-      icon: Icons.grid_view_rounded,
-      label: 'All',
-    ),
-    CategoryWidget(icon: Icons.male, label: 'Mens'),
-    CategoryWidget(icon: Icons.female, label: 'Women'),
-    CategoryWidget(icon: Icons.style, label: 'Classic'),
-    CategoryWidget(
-      icon: Icons.emoji_people,
-      label: 'T-Shirt',
-    ),
-    CategoryWidget(
-      icon: Icons.checkroom_rounded,
-      label: 'Dress',
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -93,17 +76,10 @@ class _HomeTabState extends State<HomeTab> {
               OffersSlider(),
               SizedBox(height: 32.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Categories',
-                    style: AppStyles.head3,),
-                  InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen(),)),
-                    child: Text(
-                      'Categories',
-                      style:AppStyles.head3
-                    ),
+                    style:AppStyles.head3
                   ),
                 ],
               ),
@@ -111,7 +87,11 @@ class _HomeTabState extends State<HomeTab> {
               SizedBox(
                 height: 70.h,
                 child: ListView.separated(
-                  itemBuilder:(context, index) => context.read<HomeCubit>().categoriesList[index] ,
+                  itemBuilder:(context, index) {
+                    return InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen(index: index,),)),
+                        child: context.read<HomeCubit>().categoriesList[index]);
+                  }  ,
                   separatorBuilder: (context, index) => SizedBox(width: 15.w,),
                   itemCount: context.read<HomeCubit>().categoriesList.length,
                   scrollDirection: Axis.horizontal,

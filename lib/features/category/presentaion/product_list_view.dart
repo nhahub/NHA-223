@@ -1,9 +1,9 @@
-import 'package:final_depi_project/features/products_card.dart';
+import 'package:final_depi_project/features/category/presentaion/products_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'home_screen/tabs/home_tab/cubit/home_cubit.dart';
-import 'home_screen/tabs/home_tab/data/model/get_all_product_response.dart' show Product;
+import '../../home_screen/tabs/home_tab/cubit/home_cubit.dart';
+import '../../home_screen/tabs/home_tab/data/model/get_all_product_response.dart' show Product;
 
 class ProductsListView extends StatelessWidget {
   ProductsListView({
