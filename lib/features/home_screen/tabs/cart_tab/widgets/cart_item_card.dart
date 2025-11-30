@@ -1,11 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../utils/app_styles.dart';
-import '../data/models/cart_item.dart';
+import '../data/models/CartItemModel.dart';
 import 'item_counter.dart';
-
 class CartItemCard extends StatelessWidget {
   CartItemCard({
     super.key,
@@ -44,13 +43,14 @@ class CartItemCard extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
+              // صورة المنتج
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
-                child: Image.network(
-                  item.image,
+                child: Container(
                   width: 118.w,
                   height: 118.h,
-                  fit: BoxFit.cover,
+                  color: Colors.grey[200],
+                  child: _buildProductImage(),
                 ),
               ),
               Positioned(
@@ -74,34 +74,49 @@ class CartItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Text(item.title, style: AppStyles.body2Black),
+                      child: Text(
+                        item.productTitle,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 4.h),
-                Text(
-                  'Lorem ipsum dolor amet consectetur.',
-                  style: AppStyles.description,
-                ),
-                SizedBox(height: 8.w),
+
                 Row(
                   children: [
                     Text(
-                      'Color : ${item.color}',
-                      style: AppStyles.descriptionBlack,
+                      'Color : ${item.productColor}',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.grey[700],
+                        fontFamily: "Poppins",
+                      ),
                     ),
                     Spacer(),
                     Text(
-                      'Size : ${item.size}',
-                      style: AppStyles.descriptionBlack,
+                      'Size : ${item.productSize}',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.grey[700],
+                        fontFamily: "Poppins",
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 6.h),
                 Text(
-                  '\$${item.price.toStringAsFixed(2)}',
-                  style: AppStyles.body2Black.copyWith(
+                  '\$${item.priceDouble.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
                   ),
                 ),
               ],
@@ -126,6 +141,42 @@ class CartItemCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildProductImage() {
+    final imageUrl = item.imageUrl;
+
+    print('🖼️ Loading image for product: ${item.productId}');
+    print('🖼️ Image URL: $imageUrl');
+
+    if (imageUrl.isEmpty) {
+      print('⚠️ No image URL available, showing placeholder');
+      return Icon(
+        Icons.shopping_bag,
+        size: 40.sp,
+        color: Colors.grey[400],
+      );
+    }
+
+    // استخدام CachedNetworkImage بدلاً من Image.network
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: Colors.black,
+        ),
+      ),
+      errorWidget: (context, url, error) {
+        print('❌ Error loading image: $error');
+        return Icon(
+          Icons.error_outline,
+          size: 40.sp,
+          color: Colors.grey[400],
+        );
+      },
     );
   }
 }

@@ -107,6 +107,8 @@ class Product {
       updatedAt: json['updatedAt'],
     );
   }
+
+  toJson() {}
 }
 
 // Sub-models for nested JSON objects (Brand, Category, etc.)

@@ -1,34 +1,24 @@
-import '../data/models/cart.dart';
+import '../data/models/cartmodel.dart';
 
-abstract class CartState {
-  const CartState();
-}
+abstract class CartState {}
 
-class CartInitial extends CartState {
-  const CartInitial();
-}
+class CartInitial extends CartState {}
 
-class CartLoading extends CartState {
-  const CartLoading();
-}
+class CartLoading extends CartState {}
+
+class CartEmpty extends CartState {}
 
 class CartLoaded extends CartState {
-  // final Cart cart;
-  // const CartLoaded(this.cart);
+  final CartModel cart;
+  CartLoaded(this.cart);
 }
 
-class CartEmpty extends CartState {
-  const CartEmpty();
+class CartUpdating extends CartState {
+  final CartModel cart;
+  CartUpdating(this.cart);
 }
 
 class CartError extends CartState {
   final String message;
-  final bool isAuthError;
-
-  const CartError(this.message, {this.isAuthError = false});
-}
-
-class CartUpdating extends CartState {
-  // final Cart cart;
-  // const CartUpdating(this.cart);
+  CartError(this.message);
 }
