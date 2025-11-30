@@ -44,7 +44,7 @@ class AuthRepository {
         "email": email,
         "password": password,
         "rePassword": rePassword,
-        "phone": "012231564798"
+        "phone": "01211681903"
       });
       return SignupResponse.fromJson(response.data);
     } catch (e) {

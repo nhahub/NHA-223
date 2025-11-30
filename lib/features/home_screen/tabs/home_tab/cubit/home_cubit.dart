@@ -69,7 +69,6 @@ class HomeCubit extends Cubit<HomeState> {
       mens=productsByCategory["Men's Fashion"]??[];
       electronics=productsByCategory["Electronics"]??[];
 
-      print(productsByCategory);
       emit(ProductsLoaded(
         productsByCategory: productsByCategory,
       ));

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:final_depi_project/features/auth/presentaion/sign_in_screen.dart';
-import 'package:final_depi_project/features/home_screen/home_screen.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'category/presentaion/category_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

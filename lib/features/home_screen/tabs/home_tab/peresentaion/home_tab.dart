@@ -1,6 +1,5 @@
+import 'package:final_depi_project/features/auth/cubit/auth_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/cubit/home_cubit.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/data/home_repo/home_repo.dart';
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/category_widget.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/offer_card.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/offer_slider.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/widgets/search_field.dart';
@@ -10,7 +9,8 @@ import 'package:final_depi_project/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../core/shared_prefrences.dart';
 
 
 class HomeTab extends StatefulWidget {
@@ -24,6 +24,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
+    print("this is my name${AppSharedPreferences.getString(SharedPreferencesKeys.name)}");
     final theme = Theme.of(context);
     return Scaffold(
       extendBody: true,
@@ -45,7 +46,7 @@ class _HomeTabState extends State<HomeTab> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hi, Ahmed', style: AppStyles.body2Black),
+                        Text('Hi, ${AppSharedPreferences.getString(SharedPreferencesKeys.name) ??"Karas"}', style: AppStyles.body2Black),
                         SizedBox(height: 2.h),
                         Text(
                           'Happy Day',
@@ -56,16 +57,6 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset(AppAssets.notificationIcon),
                   ),
                 ],
               ),

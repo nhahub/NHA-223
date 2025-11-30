@@ -4,7 +4,6 @@ import 'package:final_depi_project/core/payment.dart';
 import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_in_screen.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_up_screen.dart';
-import 'package:final_depi_project/features/category/presentaion/category_screen.dart';
 import 'package:final_depi_project/features/home_screen/home_screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/data/repo/fav_repo.dart';
@@ -64,10 +63,9 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.dark,
-          initialRoute: Routes.signinScreen,
+          initialRoute: getFirstScreen(),
           routes: {
             Routes.signupScreen: (context) => SignUpScreen(),
-            Routes.categoryScreen: (context) => CategoryScreen(),
             Routes.signinScreen: (context) => SignInScreen(),
             Routes.reviewScreen: (context) => ReviewScreen(),
             Routes.trackorder: (context) => TrackOrderScreen(),
@@ -83,5 +81,14 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+String getFirstScreen(){
+  if(AppSharedPreferences.getString(SharedPreferencesKeys.isOnBoardingFinished)==null){
+    return Routes.onboardingMain;
+  }else if(AppSharedPreferences.getString(SharedPreferencesKeys.token)==null){
+    return Routes.signinScreen;
+  }else{
+    return Routes.homeScreen;
   }
 }

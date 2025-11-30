@@ -13,5 +13,4 @@ class Routes {
   static String editProfileScreen = 'editProfileScreen';
   static String profileScreen = 'profileScreen';
   static String splashScreen = 'splashScreen';
-  static String categoryScreen = 'categoryScreen';
 }

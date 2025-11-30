@@ -4,6 +4,9 @@ import 'package:final_depi_project/features/onboarding/widgets/Skiptext.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../core/shared_prefrences.dart';
+import '../../helpers/routes.dart';
+
 class OnboardPage2 extends StatelessWidget {
   const OnboardPage2({super.key});
 
@@ -33,9 +36,10 @@ class OnboardPage2 extends StatelessWidget {
                       text: "Skip",
                       color: Colors.white,
                       onTap: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => HomeTab()),
-                        );
+                        AppSharedPreferences.setString(SharedPreferencesKeys.isOnBoardingFinished, "isFinished");
+                        Navigator.of(context).pushReplacementNamed(
+                            Routes.signinScreen);
+
                       },
                     ),
                   ),

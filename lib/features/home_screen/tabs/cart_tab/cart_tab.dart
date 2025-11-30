@@ -25,10 +25,7 @@ class _CartTabState extends State<CartTab> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocProvider(
-      create: (context) => CartCubit()..loadCart(),
-      child: const CartTabView(),
-    );
+    return const CartTabView();
   }
 }
 
@@ -70,7 +67,7 @@ class CartTabView extends StatelessWidget {
 
     if (result == true && context.mounted) {
       try {
-        await context.read<CartCubit>().removeItem(itemId);
+        // await context.read<CartCubit>().removeItem(itemId);
         if (context.mounted) {
           _showSuccessSnackBar(context, 'Item removed from cart');
         }
@@ -183,14 +180,14 @@ class CartTabView extends StatelessWidget {
             );
           }
 
-          if (state is CartLoaded) {
-            return _buildCartContent(context, state.cart);
-          }
+          // if (state is CartLoaded) {
+          //   return _buildCartContent(context, state.cart);
+          // }
 
           if (state is CartUpdating) {
             return Stack(
               children: [
-                _buildCartContent(context, state.cart),
+                // _buildCartContent(context, state.cart),
                 TweenAnimationBuilder(
                   duration: const Duration(milliseconds: 300),
                   tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -230,7 +227,7 @@ class CartTabView extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: () async {
-        await context.read<CartCubit>().refreshCart();
+        // await context.read<CartCubit>().refreshCart();
       },
       color: Color(0xFF0B0B0B),
       child: Column(
@@ -267,16 +264,16 @@ class CartTabView extends StatelessWidget {
                     child: CartItemCard(
                       item: item,
                       onIncrease: () {
-                        context.read<CartCubit>().increaseQuantity(
-                          item.id ?? '',
-                          item.count,
-                        );
+                        // context.read<CartCubit>().increaseQuantity(
+                        //   item.id ?? '',
+                        //   item.count,
+                        // );
                       },
                       onDecrease: () {
-                        context.read<CartCubit>().decreaseQuantity(
-                          item.id ?? '',
-                          item.count,
-                        );
+                        // context.read<CartCubit>().decreaseQuantity(
+                        //   item.id ?? '',
+                        //   item.count,
+                        // );
                       },
                       onDelete: () {
                         _showDeleteConfirmation(

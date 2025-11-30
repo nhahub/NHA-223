@@ -1,4 +1,6 @@
+import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/home_tab.dart';
+import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -26,6 +28,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
         alignment: Alignment.bottomCenter,
         children: [
           PageView(
+            physics: const NeverScrollableScrollPhysics(),
             controller: _controller,
             onPageChanged: (index) {
               setState(() {
@@ -62,8 +65,9 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 if (isLastPage)
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomeTab()),
+                      AppSharedPreferences.setString(SharedPreferencesKeys.isOnBoardingFinished, "isFinished");
+                      Navigator.of(context).pushReplacementNamed(
+                        Routes.signinScreen,
                       );
                     },
                     child: Container(

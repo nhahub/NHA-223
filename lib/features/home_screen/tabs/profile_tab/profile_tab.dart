@@ -1,4 +1,8 @@
+import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/shared_prefrences.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,12 +15,8 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: const Text(
-          "profile",
+          "Profile",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   const CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage("assets/images/user.png"),
+                    backgroundImage: AssetImage("assets/images/photo.png"),
                   ),
                   const SizedBox(width: 16),
                   const Expanded(
@@ -68,21 +68,6 @@ class ProfileScreen extends StatelessWidget {
                   _buildListTile(Icons.person_outline, "Personal Info"),
                   _buildListTile(Icons.favorite_border, "Favorites"),
                   _buildListTile(Icons.shopping_bag_outlined, "Cart"),
-                  _buildListTile(Icons.local_shipping_outlined, "Track Orders"),
-
-                  SwitchListTile(
-                    title: const Text(
-                      "Dark Mode",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                    ),
-                    secondary: const Icon(Icons.dark_mode_outlined),
-                    value: false,
-                    onChanged: (val) {},
-                    activeColor: Colors.black,
-                  ),
-                  _buildListTile(Icons.language_outlined, "Language"),
-                  _buildListTile(Icons.credit_card_outlined, "Payment methods"),
                   _buildListTile(Icons.privacy_tip_outlined, "Privacy Policy"),
 
                   ListTile(
@@ -95,7 +80,21 @@ class ProfileScreen extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () async {
+                      var isLoggedOut=await AppSharedPreferences.remove(SharedPreferencesKeys.token)??false;
+                      if(isLoggedOut){
+                        Navigator.pushReplacementNamed(context, Routes.signinScreen);
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Failed to logout please try again later"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+
+
+                    },
                   ),
                 ],
               ),

@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesKeys {
   static const String token = 'accessToken';
+  static const String isOnBoardingFinished = 'isFinished';
+  static const String name = 'name';
 
 
 }

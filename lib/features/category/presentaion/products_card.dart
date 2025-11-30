@@ -311,9 +311,6 @@ class _AddToCartButtonState extends State<_AddToCartButton> {
       _isAddingToCart = true;
     });
 
-    // Simulate API call
-    await Future.delayed(const Duration(milliseconds: 800));
-
     setState(() {
       _isAddingToCart = false;
     });
