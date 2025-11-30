@@ -5,7 +5,6 @@ import 'auth_states.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository authRepository;
-
   AuthCubit(this.authRepository) : super(AuthInitial());
 
   Future<void> login({required String email, required String password}) async {
@@ -16,7 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      print("object token is :${loginResponse.token}");
+      AppSharedPreferences.setString(SharedPreferencesKeys.name, loginResponse.user.name);
       await saveToken(loginResponse.token);
 
       emit(LoginSuccessState(loginResponse));
@@ -39,6 +38,8 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
         rePassword: rePassword,
       );
+      AppSharedPreferences.setString(SharedPreferencesKeys.name, response.user.name);
+      name=response.user.name;
       emit(SignupSuccessState(response));
       saveToken(response.token);
     }  catch (e) {
@@ -52,12 +53,6 @@ class AuthCubit extends Cubit<AuthState> {
       SharedPreferencesKeys.token,
       token,
     );
-    print("token from sharedprefrences ${AppSharedPreferences.getString(SharedPreferencesKeys.token)}");
   }
 
-  // // TODO: still have work to do with it
-  // Future<void> logout() async {
-  //   await AppSharedPreferences.remove(SharedPreferencesKeys.token);
-  //   emit(AuthInitial());
-  // }
 }

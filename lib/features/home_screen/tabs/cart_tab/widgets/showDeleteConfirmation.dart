@@ -91,7 +91,7 @@ class _DeleteConfirmationDialogState extends State<DeleteConfirmationDialog> {
     });
 
     // Remove item using cubit
-    context.read<CartCubit>().removeItem(widget.itemId);
+    // context.read<CartCubit>().removeItem(widget.itemId);
 
     // Note: We'll handle the success callback in the parent widget
     // to avoid issues with context

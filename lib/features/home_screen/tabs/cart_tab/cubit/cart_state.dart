@@ -13,8 +13,8 @@ class CartLoading extends CartState {
 }
 
 class CartLoaded extends CartState {
-  final Cart cart;
-  const CartLoaded(this.cart);
+  // final Cart cart;
+  // const CartLoaded(this.cart);
 }
 
 class CartEmpty extends CartState {
@@ -29,6 +29,6 @@ class CartError extends CartState {
 }
 
 class CartUpdating extends CartState {
-  final Cart cart;
-  const CartUpdating(this.cart);
+  // final Cart cart;
+  // const CartUpdating(this.cart);
 }
