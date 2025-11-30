@@ -1,5 +1,5 @@
 
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/home_tab.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/home_tab.dart';
 import 'package:final_depi_project/features/onboarding/widgets/Skiptext.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';

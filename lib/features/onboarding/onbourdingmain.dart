@@ -1,4 +1,4 @@
-import 'package:final_depi_project/features/home_screen/tabs/home_tab/home_tab.dart';
+import 'package:final_depi_project/features/home_screen/tabs/home_tab/peresentaion/home_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
