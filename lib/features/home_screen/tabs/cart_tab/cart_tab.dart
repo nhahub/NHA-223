@@ -81,7 +81,7 @@ class CartTabView extends StatelessWidget {
       ),
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
-          if (state is CartError && !state.isAuthError) {
+          if (state is CartError) {
             _showErrorSnackBar(context, state.message);
           }
         },
@@ -94,8 +94,6 @@ class CartTabView extends StatelessWidget {
               ),
             );
           }
-
-
 
           if (state is CartEmpty) {
             return buildEmptyCart(context);
