@@ -1,12 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/CartRepository.dart';
+import '../data/models/cartmodel.dart';
+import '../data/models/CartItemModel.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository _repository;
 
   CartCubit(this._repository) : super(CartInitial());
+
+  void resetCart() {
+    emit(CartInitial());
+  }
 
   Future<void> loadCart() async {
     emit(CartLoading());
@@ -28,40 +34,108 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> increaseQuantity(String productId, int currentCount) async {
     final currentState = state;
-    if (currentState is CartLoaded) {
-      emit(CartUpdating(currentState.cart));
-      try {
-        final updatedCart = await _repository.updateQuantity(
-          productId,
-          currentCount + 1,
-        );
-        emit(CartLoaded(updatedCart));
-      } catch (e) {
-        emit(CartLoaded(currentState.cart));
-        emit(CartError('Failed to increase quantity'));
-      }
+    if (currentState is! CartLoaded) return;
+
+    try {
+      final updatedItems = currentState.cart.items?.map((item) {
+        if (item.productId == productId) {
+          return CartItem(
+            id: item.id,
+            count: item.count + 1,
+            productId: item.productId,
+            price: item.price,
+            image: item.image,
+            title: item.title,
+            color: item.color,
+            size: item.size,
+          );
+        }
+        return item;
+      }).toList();
+
+      final newTotal = updatedItems?.fold<int>(
+        0,
+            (sum, item) => sum + (item.price * item.count),
+      ) ?? 0;
+
+      final optimisticCart = CartModel(
+        id: currentState.cart.id,
+        cartOwner: currentState.cart.cartOwner,
+        items: updatedItems,
+        createdAt: currentState.cart.createdAt,
+        updatedAt: currentState.cart.updatedAt,
+        totalCartPrice: newTotal,
+        numOfCartItems: currentState.cart.numOfCartItems,
+      );
+
+      emit(CartLoaded(optimisticCart));
+
+      final updatedCart = await _repository.updateQuantity(
+        productId,
+        currentCount + 1,
+      );
+
+      emit(CartLoaded(updatedCart));
+    } catch (e) {
+      emit(CartLoaded(currentState.cart));
+      emit(CartError('Failed to increase quantity'));
     }
   }
 
   Future<void> decreaseQuantity(String productId, int currentCount) async {
     final currentState = state;
-    if (currentState is CartLoaded) {
-      if (currentCount <= 1) {
-        await removeItem(productId);
-        return;
-      }
+    if (currentState is! CartLoaded) return;
 
-      emit(CartUpdating(currentState.cart));
-      try {
-        final updatedCart = await _repository.updateQuantity(
-          productId,
-          currentCount - 1,
-        );
-        emit(CartLoaded(updatedCart));
-      } catch (e) {
-        emit(CartLoaded(currentState.cart));
-        emit(CartError('Failed to decrease quantity'));
-      }
+    if (currentCount <= 1) {
+      await removeItem(productId);
+      return;
+    }
+
+    try {
+      final updatedItems = currentState.cart.items?.map((item) {
+        if (item.productId == productId) {
+          return CartItem(
+            id: item.id,
+            count: item.count - 1,
+            productId: item.productId,
+            price: item.price,
+            image: item.image,
+            title: item.title,
+            color: item.color,
+            size: item.size,
+          );
+        }
+        return item;
+      }).toList();
+
+      final newTotal = updatedItems?.fold<int>(
+        0,
+            (sum, item) => sum + (item.price * item.count),
+      ) ?? 0;
+
+      final optimisticCart = CartModel(
+        id: currentState.cart.id,
+        cartOwner: currentState.cart.cartOwner,
+        items: updatedItems,
+        createdAt: currentState.cart.createdAt,
+        updatedAt: currentState.cart.updatedAt,
+        totalCartPrice: newTotal,
+        numOfCartItems: currentState.cart.numOfCartItems,
+      );
+
+      // 🔥 2. نعرض فوراً
+      emit(CartLoaded(optimisticCart));
+
+      // 🔥 3. API call في الخلفية
+      final updatedCart = await _repository.updateQuantity(
+        productId,
+        currentCount - 1,
+      );
+
+      emit(CartLoaded(updatedCart));
+    } catch (e) {
+      emit(CartLoaded(currentState.cart));
+      emit(CartError('Failed to decrease quantity'));
     }
   }
 
@@ -78,32 +152,15 @@ class CartCubit extends Cubit<CartState> {
         }
       } catch (e) {
         emit(CartLoaded(currentState.cart));
-        emit(CartError('Failed to remove item'));
       }
     }
   }
 
   Future<void> addToCart(String productId) async {
-    final currentState = state;
-
-    if (currentState is CartEmpty || currentState is CartInitial) {
-      emit(CartLoading());
-    }
-    else if (currentState is CartLoaded) {
-      emit(CartUpdating(currentState.cart));
-    }
-
     try {
       await _repository.addToCart(productId);
-
-      await loadCart();
     } catch (e) {
-      if (currentState is CartLoaded) {
-        emit(CartLoaded(currentState.cart));
-      } else if (currentState is CartEmpty) {
-        emit(CartEmpty());
-      }
-      emit(CartError('Failed to add item to cart'));
+      throw Exception('Failed to add item to cart');
     }
   }
 
@@ -116,7 +173,6 @@ class CartCubit extends Cubit<CartState> {
         emit(CartEmpty());
       } catch (e) {
         emit(CartLoaded(currentState.cart));
-        emit(CartError('Failed to clear cart'));
       }
     }
   }

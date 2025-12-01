@@ -9,7 +9,13 @@ class CartRepository {
 
   Future<CartModel> getCart() async {
     try {
-      final response = await _dio.get('/cart');
+      final response = await _dio.get(
+        '/cart',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10), // 🔥 timeout
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      );
       return CartModel.fromJson(response.data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
@@ -26,9 +32,14 @@ class CartRepository {
 
   Future<CartModel> updateQuantity(String productId, int count) async {
     try {
-      final response = await _dio.put('/cart/$productId', data: {
-        'count': count,
-      });
+      final response = await _dio.put(
+        '/cart/$productId',
+        data: {'count': count},
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      );
       return CartModel.fromJson(response.data);
     } on DioException catch (e) {
       throw Exception('Failed to update quantity: ${e.response?.data?['message'] ?? e.message}');
@@ -39,7 +50,13 @@ class CartRepository {
 
   Future<CartModel> removeItem(String productId) async {
     try {
-      final response = await _dio.delete('/cart/$productId');
+      final response = await _dio.delete(
+        '/cart/$productId',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      );
       return CartModel.fromJson(response.data);
     } on DioException catch (e) {
       throw Exception('Failed to remove item: ${e.response?.data?['message'] ?? e.message}');
@@ -47,13 +64,16 @@ class CartRepository {
       throw Exception('Failed to remove item: $e');
     }
   }
-
-  Future<CartModel> addToCart(String productId) async {
+  Future<void> addToCart(String productId) async {
     try {
-      final response = await _dio.post('/cart', data: {
-        'productId': productId,
-      });
-      return CartModel.fromJson(response.data);
+      await _dio.post(
+        '/cart',
+        data: {'productId': productId},
+        options: Options(
+          sendTimeout: const Duration(seconds: 3),
+          receiveTimeout: const Duration(seconds: 3),
+        ),
+      );
     } on DioException catch (e) {
       throw Exception('Failed to add to cart: ${e.response?.data?['message'] ?? e.message}');
     } catch (e) {
@@ -63,7 +83,13 @@ class CartRepository {
 
   Future<void> clearCart() async {
     try {
-      await _dio.delete('/cart');
+      await _dio.delete(
+        '/cart',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      );
     } on DioException catch (e) {
       throw Exception('Failed to clear cart: ${e.response?.data?['message'] ?? e.message}');
     } catch (e) {

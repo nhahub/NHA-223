@@ -5,6 +5,7 @@ import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_in_screen.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_up_screen.dart';
 import 'package:final_depi_project/features/home_screen/home_screen.dart';
+import 'package:final_depi_project/features/home_screen/tabs/cart_tab/cart_tab.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/data/repo/fav_repo.dart';
 import 'package:final_depi_project/features/home_screen/tabs/home_tab/cubit/home_cubit.dart';
@@ -83,6 +84,9 @@ class MyApp extends StatelessWidget {
             Routes.editProfileScreen: (context) => EditProfileScreen(),
             Routes.profileScreen: (context) => ProfileScreen(),
             Routes.splashScreen: (context) => SplashScreen(),
+            Routes.CartTap: (context) => CartTab(),
+
+
           },
         ),
       ),
