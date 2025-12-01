@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../helpers/routes.dart';
+import '../../home_screen/tabs/cart_tab/cart_tab.dart';
 import '../../home_screen/tabs/home_tab/data/model/get_all_product_response.dart';
 
 class ProductsCard extends StatelessWidget {
@@ -293,17 +295,17 @@ class _FavoriteButtonState extends State<_FavoriteButton> with SingleTickerProvi
   }
 }
 
-// 🔥 الكلاس المعدل بالكامل
 class _AddToCartButton extends StatefulWidget {
   final Product product;
 
   const _AddToCartButton({required this.product});
 
+
   @override
   State<_AddToCartButton> createState() => _AddToCartButtonState();
 }
-
-class _AddToCartButtonState extends State<_AddToCartButton> with SingleTickerProviderStateMixin {
+class _AddToCartButtonState extends State<_AddToCartButton>
+    with SingleTickerProviderStateMixin {
   bool _isAddingToCart = false;
   late AnimationController _successAnimationController;
 
@@ -332,24 +334,25 @@ class _AddToCartButtonState extends State<_AddToCartButton> with SingleTickerPro
     try {
       final cartCubit = context.read<CartCubit>();
 
-      // 🔥 الـ Cubit هيعمل الإضافة والـ refresh تلقائياً
       await cartCubit.addToCart(widget.product.id ?? '');
 
-      // Animation للنجاح
-      await _successAnimationController.forward(from: 0.0);
-      await _successAnimationController.reverse();
-
       if (mounted) {
+        await _successAnimationController.forward(from: 0.0);
+        await _successAnimationController.reverse();
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white),
+                Icon(Icons.check_circle, color: Colors.white, size: 20.sp),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    '${widget.product.title} added to cart!',
-                    style: TextStyle(fontFamily: "Poppins"),
+                    'Added to cart!',
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 14.sp,
+                    ),
                   ),
                 ),
               ],
@@ -359,14 +362,11 @@ class _AddToCartButtonState extends State<_AddToCartButton> with SingleTickerPro
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.r),
             ),
-            duration: const Duration(seconds: 2),
-            action: SnackBarAction(
-              label: 'View Cart',
-              textColor: Colors.white,
-              onPressed: () {
-                // يمكن الانتقال للكارت هنا
-                // Navigator.pushNamed(context, Routes.cartTab);
-              },
+            duration: const Duration(milliseconds: 1500), // 🔥 وقت أقل
+            margin: EdgeInsets.only(
+              bottom: 80.h,
+              left: 16.w,
+              right: 16.w,
             ),
           ),
         );
@@ -377,12 +377,15 @@ class _AddToCartButtonState extends State<_AddToCartButton> with SingleTickerPro
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.error_outline, color: Colors.white),
+                Icon(Icons.error_outline, color: Colors.white, size: 20.sp),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    'Failed to add to cart. Please try again.',
-                    style: TextStyle(fontFamily: "Poppins"),
+                    'Failed to add. Try again.',
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 14.sp,
+                    ),
                   ),
                 ),
               ],
@@ -392,7 +395,12 @@ class _AddToCartButtonState extends State<_AddToCartButton> with SingleTickerPro
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.r),
             ),
-            duration: const Duration(seconds: 2),
+            duration: const Duration(milliseconds: 1500),
+            margin: EdgeInsets.only(
+              bottom: 80.h,
+              left: 16.w,
+              right: 16.w,
+            ),
           ),
         );
       }
