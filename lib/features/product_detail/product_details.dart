@@ -1,5 +1,6 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:final_depi_project/features/address/address_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -189,15 +190,15 @@ class _ProductDetailsState extends State<ProductDetails> {
   Future<void> _toggleCart(BuildContext context) async {
     if (_isAddingToCart) return;
 
-    if (_needsSizeSelection && selectedSize == null) {
-      _showSnackBar(context, 'Please select a size first', false);
-      return;
-    }
+    // if (_needsSizeSelection && selectedSize == null) {
+    //   _showSnackBar(context, 'Please select a size first', false);
+    //   return;
+    // }
 
-    if (_needsColorSelection && selectedColor == null) {
-      _showSnackBar(context, 'Please select a color first', false);
-      return;
-    }
+    // if (_needsColorSelection && selectedColor == null) {
+    //   _showSnackBar(context, 'Please select a color first', false);
+    //   return;
+    // }
 
     setState(() {
       _isAddingToCart = true;
@@ -254,44 +255,10 @@ class _ProductDetailsState extends State<ProductDetails> {
     });
 
     try {
-      final cartCubit = context.read<CartCubit>();
-
-      if (!_isProductInCart) {
-        await cartCubit.addToCart(widget.productId);
-      }
-
       if (mounted) {
-        _showSnackBar(context, 'Redirecting to payment...', true);
-
-        await Future.delayed(const Duration(milliseconds: 1500));
-
         await Navigator.push(
           context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => PaymentView(
-              onPaymentSuccess: () {
-                cartCubit.clearCart();
-                Navigator.pop(context);
-                _showSnackBar(context, 'Payment successful!', true);
-              },
-              onPaymentError: () {
-                Navigator.pop(context);
-                _showSnackBar(context, 'Payment failed. Try again.', false);
-              },
-              price: widget.productPrice,
-            ),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              const begin = Offset(1.0, 0.0);
-              const end = Offset.zero;
-              const curve = Curves.easeInOut;
-              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              return SlideTransition(
-                position: animation.drive(tween),
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 400),
-          ),
+          MaterialPageRoute(builder: (context) => AddressScreen(total: widget.productPrice),)
         );
       }
     } catch (e) {

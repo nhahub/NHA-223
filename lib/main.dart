@@ -2,6 +2,8 @@ import 'package:final_depi_project/core/bloc_observer.dart';
 import 'package:final_depi_project/core/dio_helper.dart';
 import 'package:final_depi_project/core/payment.dart';
 import 'package:final_depi_project/core/shared_prefrences.dart';
+import 'package:final_depi_project/features/address/cubit/address_cubit.dart';
+import 'package:final_depi_project/features/address/data/repo/address_repo.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_in_screen.dart';
 import 'package:final_depi_project/features/auth/presentaion/sign_up_screen.dart';
 import 'package:final_depi_project/features/home_screen/home_screen.dart';
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (_) => AuthCubit(AuthRepository())),
         BlocProvider<FavCubit>(create: (context) => FavCubit(FavRepo())),
+        BlocProvider<AddressCubit>(create: (context) => AddressCubit(AddressRepository())),
         BlocProvider<HomeCubit>(
           create: (context) => HomeCubit(HomeRepository()),
         ),
@@ -79,13 +82,6 @@ class MyApp extends StatelessWidget {
             Routes.trackorder2: (context) => TrackOrderScreen2(),
             Routes.homeTab: (context) => HomeTab(),
             Routes.onboardingMain: (context) => OnboardingMain(),
-            Routes.productDetails: (context) => ProductDetails(
-              productId: '',
-              heroTag: '',
-              productTitle: '',
-              productImage: '',
-              productPrice: 0.0,
-            ),
             Routes.homeScreen: (context) => HomeScreen(),
             Routes.editProfileScreen: (context) => EditProfileScreen(),
             Routes.profileScreen: (context) => ProfileScreen(),

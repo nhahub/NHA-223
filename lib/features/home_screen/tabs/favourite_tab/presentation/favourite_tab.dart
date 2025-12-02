@@ -1,7 +1,9 @@
 import 'package:final_depi_project/core/shared_prefrences.dart';
+import 'package:final_depi_project/features/category/presentaion/products_Screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/data/model/allfav_response.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/presentation/widgets/favourite_card_item.dart';
+import 'package:final_depi_project/features/product_detail/product_details.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,11 +110,15 @@ class _FavouriteTabState extends State<FavouriteTab> {
             final product = favorites[index];
             return InkWell(
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.productDetails,
-                  arguments: product.id,
-                );
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) {
+                  return ProductDetails(productId: product.id,
+                      heroTag: 'product-${product.id}',
+                      productTitle: product.title,
+                      productImage: product.imageCover?? product.images[0],
+                      productPrice: product.price.toDouble())
+                  ;
+                },));
               },
               child: FavouriteCardItem(
                 product: product,

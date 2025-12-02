@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeTab(),
     CartTab(),
     FavouriteTab(),
-    TrackOrderScreen(),
     ProfileScreen(),
   ];
 
@@ -63,10 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(AppAssets.favouriteIcon),
                 label: 'Favourite',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list, color: Colors.white),
-                label: 'Orders',
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(AppAssets.profileIcon),

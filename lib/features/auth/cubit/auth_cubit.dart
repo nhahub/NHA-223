@@ -16,6 +16,7 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
       );
       AppSharedPreferences.setString(SharedPreferencesKeys.name, loginResponse.user.name);
+      AppSharedPreferences.setString(SharedPreferencesKeys.email, loginResponse.user.email);
       await saveToken(loginResponse.token);
 
       emit(LoginSuccessState(loginResponse));
@@ -39,6 +40,8 @@ class AuthCubit extends Cubit<AuthState> {
         rePassword: rePassword,
       );
       AppSharedPreferences.setString(SharedPreferencesKeys.name, response.user.name);
+      AppSharedPreferences.setString(SharedPreferencesKeys.email, response.user.email);
+      print("this the email:${response.user.email}");
       name=response.user.name;
       emit(SignupSuccessState(response));
       saveToken(response.token);
@@ -47,7 +50,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SignupErrorState(e.toString()));
     }
   }
-
   Future<void> saveToken(String token) async {
     await AppSharedPreferences.setString(
       SharedPreferencesKeys.token,

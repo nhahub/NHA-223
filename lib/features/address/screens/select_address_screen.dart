@@ -31,7 +31,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('اختر عنوان الشحن'),
+        title: const Text('Choose Shipping Address'),
       ),
       body: BlocBuilder<AddressCubit, AddressState>( 
         builder: (context, state) {

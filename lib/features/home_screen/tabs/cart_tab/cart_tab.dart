@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pay_with_paymob/pay_with_paymob.dart';
+import '../../../address/address_screen.dart';
 import 'cubit/cart_cubit.dart';
 import 'data/models/cartmodel.dart';
 import 'widgets/cart_item_card.dart';
@@ -94,43 +95,7 @@ class CartTabView extends StatelessWidget {
   Future<void> _handleCheckout(BuildContext context, double total) async {
     await Navigator.push(
       context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => PaymentView(
-          onPaymentSuccess: () {
-            context.read<CartCubit>().clearCart();
-            Navigator.pushReplacementNamed(
-              context,
-              Routes.homeScreen,
-            );
-            _showSuccessSnackBar(
-              context,
-              'Payment successful!',
-            );
-          },
-          onPaymentError: () {
-            Navigator.pushReplacementNamed(
-              context,
-              Routes.homeScreen,
-            );
-            _showErrorSnackBar(
-              context,
-              'Error while payment please try again',
-            );
-          },
-          price: total,
-        ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
-          const end = Offset.zero;
-          const curve = Curves.easeInOut;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 400),
-      ),
+      MaterialPageRoute(builder: (context) => AddressScreen(total: total,),)
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/home_screen/tabs/profile_tab/widgets/custom_text_field.dart';
 import 'package:final_depi_project/utils/app_assets.dart';
 import 'package:final_depi_project/utils/app_styles.dart';
@@ -8,13 +9,10 @@ class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
 
   final TextEditingController nameController = TextEditingController(
-    text: 'Mona Ahmed',
+    text: AppSharedPreferences.getString(SharedPreferencesKeys.name),
   );
   final TextEditingController emailController = TextEditingController(
-    text: "monaahmed22@gmail.com",
-  );
-  final TextEditingController passwordController = TextEditingController(
-    text: "...............",
+    text: AppSharedPreferences.getString(SharedPreferencesKeys.email),
   );
 
   @override
@@ -22,7 +20,7 @@ class EditProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text("Personal Info", style: AppStyles.body3Bold),
+        title: Text("Edit Profile", style: AppStyles.body3Bold),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -44,23 +42,6 @@ class EditProfileScreen extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.bottomRight,
                           children: [
-                            CircleAvatar(
-                              radius: 44,
-                              backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400',
-                              ),
-                              backgroundColor: Color(0xFFE0E0E0),
-                            ),
-                            Container(
-                              height: 28.h,
-                              width: 28.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.black12),
-                              ),
-                              child: Icon(Icons.edit, size: 16.sp),
-                            ),
                           ],
                         ),
                       ),
@@ -77,16 +58,6 @@ class EditProfileScreen extends StatelessWidget {
                         nameController: emailController,
                       ),
                       SizedBox(height: 20.h),
-                      Text('Password', style: AppStyles.head3),
-                      SizedBox(height: 8.h),
-                      CustomTextFieldEditProfile(
-                        nameController: passwordController,
-                        suffixIcon: Image.asset(
-                          AppAssets.lockIcon,
-                          width: 24.w,
-                          height: 24.h,
-                        ),
-                      ),
                       SizedBox(height: 120.h),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -97,7 +68,9 @@ class EditProfileScreen extends StatelessWidget {
                           elevation: 0,
                         ),
                         onPressed: () {
-                          // TODO: handle "Edit personal Info"
+                          AppSharedPreferences.setString(SharedPreferencesKeys.name, nameController.text);
+                          AppSharedPreferences.setString(SharedPreferencesKeys.email, emailController.text);
+                          Navigator.pop(context,true);
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),

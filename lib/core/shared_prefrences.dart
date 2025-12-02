@@ -6,6 +6,7 @@ class SharedPreferencesKeys {
   static const String token = 'accessToken';
   static const String isOnBoardingFinished = 'isFinished';
   static const String name = 'name';
+  static const String email = 'mail';
 
 
 }

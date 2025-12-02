@@ -81,6 +81,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     try {
       final product = await homeRepository.getProductById(id);
+      print(product.title);
       emit(GetProductByIdSuccess(product));
     } catch (e) {
       emit(GetProductByIdError(e.toString()));

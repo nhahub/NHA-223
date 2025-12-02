@@ -14,7 +14,6 @@ class CustomTextFieldEditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      readOnly: true,
       controller: nameController,
       decoration: InputDecoration(
         filled: true,

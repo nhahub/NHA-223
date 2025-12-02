@@ -63,9 +63,6 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 32.h),
-              SearchField(),
               SizedBox(height: 32.h),
               OffersSlider(),
               SizedBox(height: 32.h),
