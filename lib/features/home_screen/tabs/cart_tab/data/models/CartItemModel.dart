@@ -1,74 +1,59 @@
+// CartItemModel.dart بدون استيراد shared_pref.dart
 class CartItem {
-  final String? id;
+  final String id;
   final int count;
-  final String? productId;
+  final String productId;
   final int price;
-  final String? image;
-  final String? title;
+  final String image;
+  final String title;
   final String? color;
   final String? size;
 
   CartItem({
-    this.id,
+    required this.id,
     required this.count,
-    this.productId,
+    required this.productId,
     required this.price,
-    this.image,
-    this.title,
+    required this.image,
+    required this.title,
     this.color,
     this.size,
   });
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
-    print('🔄 Parsing CartItem: $json');
-
-    String? prodId;
-    String? image;
-    String? title;
-    String? color;
-    String? size;
-
-    if (json['product'] != null) {
-      if (json['product'] is Map<String, dynamic>) {
-        final productData = json['product'];
-        prodId = productData['_id'] ?? productData['id'];
-
-        image = productData['imageCover'] ??
-            productData['image'] ??
-            (productData['images'] != null && productData['images'].isNotEmpty ? productData['images'][0] : '');
-
-        title = productData['title'] ?? productData['name'] ?? 'Unknown Product';
-        color = productData['color'] ?? 'Default';
-        size = productData['size'] ?? 'M';
-
-        print('✅ Extracted product data - ID: $prodId, Image: $image, Title: $title');
-      } else if (json['product'] is String) {
-        prodId = json['product'];
-        image = '';
-        title = 'Product $prodId';
-        color = 'Default';
-        size = 'M';
-      }
-    }
-
-    if (image == null || image.isEmpty) {
-      image = json['image'] ?? json['imageCover'] ?? '';
-    }
-
-    if (title == null || title.isEmpty) {
-      title = json['title'] ?? json['productTitle'] ?? 'Unknown Product';
-    }
+    final productData = json['product'] is Map<String, dynamic>
+        ? json['product'] as Map<String, dynamic>
+        : <String, dynamic>{};
 
     return CartItem(
-      id: json['_id'],
-      count: json['count'] ?? 0,
-      productId: prodId ?? json['productId'],
-      price: json['price'] ?? 0,
-      image: image,
-      title: title,
-      color: color,
-      size: size,
+      id: _toString(json['_id']) ?? _toString(json['id']) ?? '',
+      count: _toInt(json['count']) ?? 1,
+      productId: _toString(productData['id']) ?? _toString(json['product']) ?? '',
+      price: _toInt(productData['price']) ?? _toInt(json['price']) ?? 0,
+      image: _toString(productData['imageCover']) ??
+          _toString(productData['image']) ??
+          _toString(json['image']) ??
+          '',
+      title: _toString(productData['title']) ??
+          _toString(productData['name']) ??
+          _toString(json['title']) ??
+          '',
+      color: _toString(json['color'] ?? productData['color']),
+      size: _toString(json['size'] ?? productData['size']),
     );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  static int? _toInt(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    if (value is String) return int.tryParse(value);
+    return null;
   }
 
   Map<String, dynamic> toJson() {
@@ -77,13 +62,18 @@ class CartItem {
       'count': count,
       'product': productId,
       'price': price,
+      'image': image,
+      'title': title,
+      'color': color,
+      'size': size,
     };
   }
 
-  String get imageUrl => image ?? '';
-  String get productTitle => title ?? 'Product $productId';
-  int get qty => count;
+  // Getters
+  String get imageUrl => image;
+  String get productTitle => title;
   double get priceDouble => price.toDouble();
-  String get productColor => color ?? 'Default';
-  String get productSize => size ?? 'M';
+  int get qty => count;
+  String? get productColor => color;
+  String? get productSize => size;
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_depi_project/core/shared_prefrences.dart';
 import 'package:final_depi_project/features/home_screen/tabs/favourite_tab/cubit/fav_cubit.dart';
 import 'package:final_depi_project/features/home_screen/tabs/cart_tab/cubit/cart_cubit.dart';
+import 'package:final_depi_project/features/product_detail/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,41 @@ import '../../home_screen/tabs/home_tab/data/model/get_all_product_response.dart
 class ProductsCard extends StatelessWidget {
   ProductsCard({super.key, required this.product});
   final Product product;
+
+  void _navigateToProductDetails(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ProductDetails(
+          productId: product.id ?? '',
+          heroTag: 'product-${product.id}',
+          productTitle: product.title ?? '',
+          productImage: product.imageCover ?? product.images?[0] ?? '',
+          productPrice: (product.price ?? 0).toDouble(),
+          category: product.category?.name,
+          brand: product.brand?.name,
+          description: product.description,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 0.1);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutCubic;
+
+          var tween = Tween(begin: begin, end: end)
+              .chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,158 +84,164 @@ class ProductsCard extends StatelessWidget {
   }
 
   Widget _buildCardContent(BuildContext context, FavCubit favCubit, bool isFavorite) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8.w,
-            offset: Offset(0, 2.h),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          // Product Image
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+    return GestureDetector(
+      onTap: () => _navigateToProductDetails(context),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8.w,
+              offset: Offset(0, 2.h),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.r),
-              child: CachedNetworkImage(
-                imageUrl: product.imageCover ?? product.images?[0] ?? "",
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.black,
-                  ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Product Image مع Hero
+            Hero(
+              tag: 'product-${product.id}',
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
-                errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[200],
-                  child: Icon(
-                    Icons.error_outline,
-                    color: Colors.grey[400],
-                    size: 40.sp,
-                  ),
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-
-          // Gradient Overlay
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.7),
-                ],
-              ),
-            ),
-          ),
-
-          // Favorite Button
-          Positioned(
-            top: 8.w,
-            right: 8.w,
-            child: _FavoriteButton(
-              product: product,
-              isFavorite: isFavorite,
-              favCubit: favCubit,
-            ),
-          ),
-
-          // Product Info
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(12.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Product Title
-                  Text(
-                    product.title ?? "",
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      height: 1.2,
-                      fontFamily: "Poppins",
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageCover ?? product.images?[0] ?? "",
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.black,
+                      ),
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    errorWidget: (context, url, error) => Container(
+                      color: Colors.grey[200],
+                      child: Icon(
+                        Icons.error_outline,
+                        color: Colors.grey[400],
+                        size: 40.sp,
+                      ),
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(height: 8.h),
+                ),
+              ),
+            ),
 
-                  // Rating, Price and Add to Cart
-                  Row(
-                    children: [
-                      // Rating
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.orange,
-                            size: 12.sp,
+            // Gradient Overlay
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.r),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.7),
+                  ],
+                ),
+              ),
+            ),
+
+            // Favorite Button
+            Positioned(
+              top: 8.w,
+              right: 8.w,
+              child: _FavoriteButton(
+                product: product,
+                isFavorite: isFavorite,
+                favCubit: favCubit,
+              ),
+            ),
+
+            // Product Info
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(12.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Product Title
+                    Text(
+                      product.title ?? "",
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        height: 1.2,
+                        fontFamily: "Poppins",
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 8.h),
+
+                    // Rating, Price and Add to Cart
+                    Row(
+                      children: [
+                        // Rating
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.orange,
+                              size: 12.sp,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              product.ratingsAverage?.toStringAsFixed(1) ?? "0.0",
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+
+                        // Price
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
                           ),
-                          SizedBox(width: 4.w),
-                          Text(
-                            product.ratingsAverage?.toStringAsFixed(1) ?? "0.0",
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Text(
+                            "${product.price}\$",
                             style: TextStyle(
-                              fontSize: 11.sp,
+                              fontSize: 12.sp,
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               fontFamily: "Poppins",
                             ),
                           ),
-                        ],
-                      ),
-                      const Spacer(),
+                        ),
+                        SizedBox(width: 8.w),
 
-                      // Price
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 4.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Text(
-                          "${product.price}\$",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Poppins",
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-
-                      // Add to Cart Button
-                      _AddToCartButton(product: product),
-                    ],
-                  ),
-                ],
+                        // Add to Cart Button
+                        _AddToCartButton(product: product),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -300,10 +342,10 @@ class _AddToCartButton extends StatefulWidget {
 
   const _AddToCartButton({required this.product});
 
-
   @override
   State<_AddToCartButton> createState() => _AddToCartButtonState();
 }
+
 class _AddToCartButtonState extends State<_AddToCartButton>
     with SingleTickerProviderStateMixin {
   bool _isAddingToCart = false;
@@ -362,7 +404,7 @@ class _AddToCartButtonState extends State<_AddToCartButton>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.r),
             ),
-            duration: const Duration(milliseconds: 1500), // 🔥 وقت أقل
+            duration: const Duration(milliseconds: 500),
             margin: EdgeInsets.only(
               bottom: 80.h,
               left: 16.w,
