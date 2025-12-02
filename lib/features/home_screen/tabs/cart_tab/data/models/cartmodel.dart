@@ -26,7 +26,6 @@ class CartModel {
       throw Exception('Invalid cart response structure');
     }
 
-    // استخراج العناصر
     List<CartItem>? cartItems;
 
     if (data['products'] != null && data['products'] is List) {
@@ -62,3 +61,4 @@ class CartModel {
     };
   }
 }
+
