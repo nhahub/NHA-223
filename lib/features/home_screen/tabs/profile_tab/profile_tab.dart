@@ -1,3 +1,4 @@
+import 'package:final_depi_project/features/home_screen/tabs/profile_tab/personal_info.dart';
 import 'package:final_depi_project/helpers/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,7 +85,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ListView(
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  _buildListTile(Icons.person_outline, "Personal Info"),
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalInfoScreen(),));
+                      },
+                      child: _buildListTile(Icons.person_outline, "Personal Info")),
                   InkWell(
                       onTap: () {
                         widget.onNavigate?.call('favourite');

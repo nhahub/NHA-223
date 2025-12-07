@@ -24,7 +24,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
-    print("this is my name${AppSharedPreferences.getString(SharedPreferencesKeys.name)}");
+    // print("this is my name${AppSharedPreferences.getString(SharedPreferencesKeys.name)}");
     final theme = Theme.of(context);
     return Scaffold(
       extendBody: true,
@@ -39,7 +39,8 @@ class _HomeTabState extends State<HomeTab> {
                 children: [
                   CircleAvatar(
                     radius: 22.w,
-                    backgroundImage: AssetImage(AppAssets.orderPhoto),
+                    // backgroundImage: AssetImage(AppAssets.orderPhoto),
+                    child: Icon(Icons.person),
                   ),
                   SizedBox(width: 8.w),
                   Expanded(

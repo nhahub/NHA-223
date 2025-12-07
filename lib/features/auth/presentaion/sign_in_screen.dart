@@ -14,10 +14,10 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController(
-    text: "marwanreda@gmail.com",
+    // text: "marwanreda@gmail.com",
   );
   TextEditingController passwordController = TextEditingController(
-    text: "Mawran@123",
+    // text: "Mawran@123",
   );
   final _formKey = GlobalKey<FormState>();
   bool _obscure = true;
