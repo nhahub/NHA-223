@@ -6,7 +6,8 @@ import '../../../../core/shared_prefrences.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final Function(String)? onNavigate;
+   ProfileScreen({super.key,required this.onNavigate});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -86,12 +87,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _buildListTile(Icons.person_outline, "Personal Info"),
                   InkWell(
                       onTap: () {
-
+                        widget.onNavigate?.call('favourite');
                       },
                       child: _buildListTile(Icons.favorite_border, "Favorites")),
                   InkWell(
                       onTap: () {
-
+                        widget.onNavigate?.call('cart');
                       },
                       child: _buildListTile(Icons.shopping_bag_outlined, "Cart")),
                   _buildListTile(Icons.privacy_tip_outlined, "Privacy Policy"),

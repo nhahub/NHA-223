@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pay_with_paymob/pay_with_paymob.dart';
 
+import '../../core/shared_prefrences.dart';
 import '../../helpers/routes.dart';
 import '../home_screen/tabs/cart_tab/cubit/cart_cubit.dart';
 
@@ -25,7 +26,7 @@ class _AddressScreenState extends State<AddressScreen> {
   final postalController = TextEditingController();
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
-  final emailController = TextEditingController();
+  final emailController = TextEditingController(text: AppSharedPreferences.getString(SharedPreferencesKeys.email));
 
   @override
   Widget build(BuildContext context) {
@@ -124,15 +125,34 @@ class _AddressScreenState extends State<AddressScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      AppSharedPreferences.setString(SharedPreferencesKeys.email,emailController.text);
                       Navigator.push(
                         context,
                              PageRouteBuilder(
                               pageBuilder: (context, animation, secondaryAnimation) => PaymentView(
                                 onPaymentSuccess: () {
+
                                   context.read<CartCubit>().clearCart();
                                   Navigator.pushReplacementNamed(
                                     context,
                                     Routes.homeScreen,
+                                  );
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Invoice Sent'),
+                                        content: Text('The invoice data has been sent to your email\n${AppSharedPreferences.getString(SharedPreferencesKeys.email)}'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(); // Close the dialog
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

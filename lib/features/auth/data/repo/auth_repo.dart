@@ -47,8 +47,8 @@ class AuthRepository {
         "phone": "01211681903"
       });
       return SignupResponse.fromJson(response.data);
-    } catch (e) {
-      throw Exception(e.toString());
+    }on DioException catch (e) {
+      throw Exception(e.response?.data['message'] ?? 'Signup failed');
     }
   }
 }

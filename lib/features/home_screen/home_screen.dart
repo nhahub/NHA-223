@@ -16,14 +16,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> tabs = <Widget>[
-    HomeTab(),
-    CartTab(),
-    FavouriteTab(),
-    ProfileScreen(),
-  ];
+  final List<Widget> tabs = [];
 
   int index = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabs.addAll([
+      HomeTab(),
+      CartTab(),
+      FavouriteTab(),
+      ProfileScreen(
+        onNavigate: (String target) {
+          if (target == 'cart') {
+            setState(() => index = 1);
+          } else if (target == 'favourite') {
+            setState(() => index = 2);
+          }
+        },
+      ),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

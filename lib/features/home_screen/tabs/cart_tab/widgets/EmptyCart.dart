@@ -1,3 +1,4 @@
+import 'package:final_depi_project/features/category/presentaion/products_Screen.dart';
 import 'package:final_depi_project/features/home_screen/tabs/cart_tab/widgets/add_minus_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ Widget buildEmptyCart(BuildContext context) {
                 borderRadius: BorderRadius.circular(12)),
           ),
           onPressed: () =>
-              Navigator.pushReplacementNamed(context, Routes.homeScreen),
+              Navigator.push(context,MaterialPageRoute(builder: (context) => ProductsScreen(index: 0),)) ,
           child: Text('Start Shopping',
               style: TextStyle(
                   color: Color(0xFF0A0A0A), fontWeight: FontWeight.w600)),

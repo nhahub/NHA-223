@@ -41,7 +41,6 @@ class AuthCubit extends Cubit<AuthState> {
       );
       AppSharedPreferences.setString(SharedPreferencesKeys.name, response.user.name);
       AppSharedPreferences.setString(SharedPreferencesKeys.email, response.user.email);
-      print("this the email:${response.user.email}");
       name=response.user.name;
       emit(SignupSuccessState(response));
       saveToken(response.token);

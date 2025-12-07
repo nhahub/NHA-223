@@ -84,7 +84,6 @@ class MyApp extends StatelessWidget {
             Routes.onboardingMain: (context) => OnboardingMain(),
             Routes.homeScreen: (context) => HomeScreen(),
             Routes.editProfileScreen: (context) => EditProfileScreen(),
-            Routes.profileScreen: (context) => ProfileScreen(),
             Routes.splashScreen: (context) => SplashScreen(),
             Routes.CartTap: (context) => CartTab(),
 
